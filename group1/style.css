@@ -1,0 +1,9 @@
+/* Խումբ 1․ այստեղ փոխեք կայքի գույները, տառաչափերը և դասավորությունը։ */
+:root { --background: #f2f7ff; --text: #14213d; --accent: #2563eb; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--text); background: var(--background); font-family: system-ui, sans-serif; }
+main { width: min(calc(100% - 32px), 760px); margin: 0 auto; padding: 100px 0; }
+.label { color: var(--accent); font-weight: 800; letter-spacing: .12em; }
+h1 { margin: 12px 0; font-size: clamp(2.4rem, 8vw, 5rem); line-height: 1.05; }
+button { margin: 24px 0; padding: 12px 18px; border: 0; border-radius: 8px; color: white; background: var(--accent); font: inherit; cursor: pointer; }
+a { display: block; margin-top: 50px; color: var(--accent); }

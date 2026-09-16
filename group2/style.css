@@ -1,9 +1,187 @@
-/* Խումբ 2․ այստեղ փոխեք կայքի գույները, տառաչափերը և դասավորությունը։ */
-:root { --background: #fff8ed; --text: #2d1b0e; --accent: #ea580c; }
-* { box-sizing: border-box; }
-body { margin: 0; color: var(--text); background: var(--background); font-family: system-ui, sans-serif; }
-main { width: min(calc(100% - 32px), 760px); margin: 0 auto; padding: 100px 0; }
-.label { color: var(--accent); font-weight: 800; letter-spacing: .12em; }
-h1 { margin: 12px 0; font-size: clamp(2.4rem, 8vw, 5rem); line-height: 1.05; }
-button { margin: 24px 0; padding: 12px 18px; border: 0; border-radius: 8px; color: white; background: var(--accent); font: inherit; cursor: pointer; }
-a { display: block; margin-top: 50px; color: var(--accent); }
+/* =========================================
+   RESET
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Sans Armenian", Arial, sans-serif;
+  background: #07110f;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 80px;
+
+  padding: 0 6%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  z-index: 1000;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 3px;
+
+  color: #ffffff;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+nav a {
+  position: relative;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -7px;
+
+  width: 0;
+  height: 2px;
+
+  background: #8ee6a7;
+
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: #8ee6a7;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  min-height: 650px;
+
+  overflow: hidden;
+
+  background: #000;
+}
+
+.slide {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  background-size: cover;
+  background-position: center;
+
+  transition:
+    opacity 1.2s ease,
+    transform 7s ease;
+
+  transform: scale(1.04);
+
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+
+/* =========================================
+   HERO OVERLAY
+========================================= */
+
+.slide::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.40) 45%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+
+  z-index: 1;
+}
+
+.slide::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 45%;
+
+  background: linear-gradient(
+    to top,
+    #071
+

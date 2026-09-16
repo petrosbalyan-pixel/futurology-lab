@@ -1,4 +1,6 @@
-// Խումբ 1․ այստեղ գրեք կայքի JavaScript հրահանգները։
-document.querySelector('#hello-button').addEventListener('click', () => {
-  document.querySelector('#message').textContent = 'Կոճակը աշխատեց 🎉';
+// Էջի բեռնման ստուգում
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Էջը հաջողությամբ բեռնվեց");
 });
+

@@ -1,9 +1,119 @@
-/* Խումբ 1․ այստեղ փոխեք կայքի գույները, տառաչափերը և դասավորությունը։ */
-:root { --background: #f2f7ff; --text: #14213d; --accent: #2563eb; }
-* { box-sizing: border-box; }
-body { margin: 0; color: var(--text); background: var(--background); font-family: system-ui, sans-serif; }
-main { width: min(calc(100% - 32px), 760px); margin: 0 auto; padding: 100px 0; }
-.label { color: var(--accent); font-weight: 800; letter-spacing: .12em; }
-h1 { margin: 12px 0; font-size: clamp(2.4rem, 8vw, 5rem); line-height: 1.05; }
-button { margin: 24px 0; padding: 12px 18px; border: 0; border-radius: 8px; color: white; background: var(--accent); font: inherit; cursor: pointer; }
-a { display: block; margin-top: 50px; color: var(--accent); }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+
+    padding: 40px 25px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 25px;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+    color: #222;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn {
+    display: block;
+
+    padding: 18px;
+
+    border-radius: 14px;
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 19px;
+    font-weight: bold;
+
+    transition: 0.25s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+/* ChatGPT */
+
+.chatgpt {
+    background: #111111;
+}
+
+.chatgpt:hover {
+    background: #000000;
+}
+
+/* Gemini */
+
+.gemini {
+    background: linear-gradient(90deg, #4285f4, #8e44ad);
+}
+
+.gemini:hover {
+    opacity: 0.9;
+}
+
+/* YouTube */
+
+.youtube {
+    background: #ff0000;
+}
+
+.youtube:hover {
+    background: #cc0000;
+}
+
+
+/* Հեռախոսի համար */
+
+@media (max-width: 500px) {
+
+    .container {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .btn {
+        font-size: 17px;
+        padding: 16px;
+    }
+}

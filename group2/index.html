@@ -1,366 +1,820 @@
 <!doctype html>
 <html lang="hy">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VÉLA — Հագուստի խանութ</title>
 
-  <title>Ապագայի քաղաք 2040</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Arial,"Noto Sans Armenian",sans-serif;
+background:#fff8f7;color:#241c1f;line-height:1.5
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
-  <style>
-    /* Կայքի հիմնական գույները */
-    :root {
-      --background: #071426;
-      --card: #10243c;
-      --text: #eef8ff;
-      --muted: #9db1c6;
-      --accent: #42e8c3;
-      --accent-blue: #58a6ff;
-      --border: rgba(255, 255, 255, 0.12);
-    }
+.top{
+background:#241c1f;color:white;text-align:center;
+padding:9px;font-size:13px
+}
 
-    * {
-      box-sizing: border-box;
-    }
+header{
+position:sticky;top:0;z-index:100;
+background:rgba(255,248,247,.96);
+border-bottom:1px solid #eadfdb
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+.nav{
+max-width:1200px;margin:auto;min-height:72px;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 20px
+}
 
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top right, rgba(66, 232, 195, 0.16), transparent 400px),
-        var(--background);
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-    }
+.logo{
+font-size:29px;font-weight:900;letter-spacing:4px
+}
+.logo span{color:#ed5275}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+.links{
+display:flex;gap:28px;font-weight:bold;font-size:15px
+}
+.links a:hover{color:#ed5275}
 
-    header {
-      width: min(1100px, calc(100% - 32px));
-      min-height: 75px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px solid var(--border);
-    }
+.actions{display:flex;gap:7px}
+.icon{
+border:0;background:white;border-radius:50%;
+width:42px;height:42px;font-size:18px;position:relative
+}
+.icon:hover{background:#ffe5eb}
+.count{
+position:absolute;right:-2px;top:-2px;
+background:#ed5275;color:white;border-radius:50%;
+width:18px;height:18px;font-size:11px;
+display:flex;align-items:center;justify-content:center
+}
+.menu{display:none}
 
-    .logo {
-      color: var(--accent);
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+.hero{
+max-width:1200px;margin:25px auto;padding:0 20px
+}
+.hero-box{
+min-height:570px;border-radius:34px;overflow:hidden;
+display:flex;align-items:center;
+background:
+linear-gradient(90deg,rgba(35,24,29,.82),rgba(35,24,29,.28)),
+url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85")
+center/cover
+}
+.hero-content{color:white;max-width:650px;padding:55px}
+.tag{
+display:inline-block;background:#ffb5c6;color:#241c1f;
+padding:8px 14px;border-radius:30px;font-size:12px;
+font-weight:bold;margin-bottom:18px
+}
+.hero h1{
+font-size:clamp(45px,7vw,78px);
+line-height:.98;margin-bottom:22px
+}
+.hero h1 span{color:#ffb5c6}
+.hero p{
+font-size:18px;max-width:530px;margin-bottom:28px;color:#f8eeee
+}
+.btn{
+display:inline-block;border:0;background:#ed5275;
+color:white;padding:14px 24px;border-radius:12px;
+font-weight:bold;transition:.2s
+}
+.btn:hover{transform:translateY(-3px);background:#d93f62}
 
-    nav {
-      display: flex;
-      gap: 20px;
-    }
+.section{
+max-width:1200px;margin:80px auto;padding:0 20px
+}
+.heading{
+display:flex;justify-content:space-between;
+align-items:end;margin-bottom:28px;gap:20px
+}
+.heading h2{font-size:36px}
+.heading p{color:#76696e;max-width:500px}
 
-    nav a {
-      color: var(--muted);
-    }
+.categories{
+display:grid;grid-template-columns:repeat(4,1fr);gap:18px
+}
+.category{
+height:280px;border-radius:23px;overflow:hidden;
+position:relative;color:white;background-size:cover;
+background-position:center;transition:.3s
+}
+.category:hover{transform:translateY(-5px)}
+.category:after{
+content:"";position:absolute;inset:0;
+background:linear-gradient(transparent 30%,rgba(0,0,0,.7))
+}
+.category div{
+position:absolute;z-index:2;left:20px;bottom:18px
+}
+.category h3{font-size:23px}
+.category p{font-size:13px}
 
-    nav a:hover {
-      color: var(--accent);
-    }
+.c1{background-image:url("https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=80")}
+.c2{background-image:url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80")}
+.c3{background-image:url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=80")}
+.c4{background-image:url("https://images.unsplash.com/photo-1548883354-94bcfe321cbb?auto=format&fit=crop&w=700&q=80")}
 
-    main {
-      width: min(1100px, calc(100% - 32px));
-      margin: auto;
-    }
+.products{
+display:grid;grid-template-columns:repeat(4,1fr);gap:20px
+}
+.product{
+background:white;border:1px solid #eee2df;
+border-radius:20px;overflow:hidden;transition:.25s
+}
+.product:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 35px rgba(65,38,46,.1)
+}
+.photo{height:310px;position:relative;overflow:hidden;background:#f3eaea}
+.photo img{
+width:100%;height:100%;object-fit:cover;
+transition:.4s
+}
+.product:hover img{transform:scale(1.05)}
+.badge{
+position:absolute;left:12px;top:12px;
+background:#241c1f;color:white;
+padding:6px 10px;border-radius:20px;
+font-size:11px;font-weight:bold;z-index:2
+}
+.heart{
+position:absolute;right:12px;top:12px;
+width:38px;height:38px;border:0;
+border-radius:50%;background:white;z-index:2;font-size:18px
+}
+.heart.active{color:#ed5275}
+.info{padding:16px}
+.category-name{font-size:12px;color:#98888e}
+.info h3{font-size:17px;margin:5px 0 9px}
+.price{margin-bottom:13px}
+.new{font-weight:900;font-size:18px}
+.old{
+color:#a99b9f;text-decoration:line-through;
+font-size:13px;margin-left:7px
+}
+.add{
+width:100%;border:0;background:#f7e7eb;
+padding:11px;border-radius:10px;font-weight:bold
+}
+.add:hover{background:#ed5275;color:white}
 
-    .hero {
-      min-height: 560px;
-      padding: 90px 0;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      align-items: center;
-      gap: 60px;
-    }
+.sale{max-width:1200px;margin:80px auto;padding:0 20px}
+.sale-box{
+background:#f5dce3;border-radius:30px;
+padding:50px;display:flex;
+justify-content:space-between;align-items:center;gap:30px
+}
+.sale h2{font-size:43px;line-height:1.05;margin-bottom:14px}
+.sale p{max-width:560px;color:#654f56;margin-bottom:22px}
+.discount{
+font-size:65px;font-weight:900;color:#ed5275
+}
 
-    .label {
-      color: var(--accent);
-      font-size: 0.8rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
+.benefits{
+display:grid;grid-template-columns:repeat(4,1fr);gap:18px
+}
+.benefit{
+background:white;border:1px solid #eee2df;
+border-radius:20px;padding:25px
+}
+.benefit-icon{font-size:30px;margin-bottom:10px}
+.benefit h3{margin-bottom:7px}
+.benefit p{font-size:14px;color:#76696e}
 
-    h1 {
-      max-width: 750px;
-      margin: 12px 0 24px;
-      font-size: clamp(3rem, 8vw, 6rem);
-      line-height: 1;
-    }
+.newsletter{
+background:#241c1f;color:white;border-radius:28px;
+padding:48px;text-align:center
+}
+.newsletter h2{font-size:34px;margin-bottom:8px}
+.newsletter p{color:#d5c8cc;margin-bottom:22px}
+.form{
+max-width:530px;margin:auto;display:flex;gap:10px
+}
+.form input{
+flex:1;border:0;border-radius:11px;
+padding:14px;outline:none
+}
 
-    .hero p {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: 1.1rem;
-    }
+footer{
+background:#eee4e1;padding:50px 20px 20px;margin-top:70px
+}
+.footer{
+max-width:1200px;margin:auto;
+display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px
+}
+.footer-logo{font-size:27px;font-weight:900;letter-spacing:4px;margin-bottom:10px}
+.footer p,.footer a{color:#76696e;font-size:14px}
+.footer h3{margin-bottom:13px;font-size:16px}
+.footer a{display:block;margin-bottom:7px}
+.footer a:hover{color:#ed5275}
+.copy{
+max-width:1200px;margin:35px auto 0;
+padding-top:18px;border-top:1px solid #d6c9c6;
+text-align:center;color:#88797f;font-size:13px
+}
 
-    button {
-      margin-top: 22px;
-      padding: 14px 20px;
-      border: 0;
-      border-radius: 10px;
-      color: #03251d;
-      background: var(--accent);
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.overlay{
+display:none;position:fixed;inset:0;
+background:rgba(0,0,0,.45);z-index:200
+}
+.overlay.show{display:block}
 
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(66, 232, 195, 0.22);
-    }
+.cart{
+position:fixed;right:0;top:0;height:100%;
+width:min(430px,92%);background:#fff8f7;
+z-index:201;transform:translateX(100%);
+transition:.3s;padding:23px;
+display:flex;flex-direction:column
+}
+.cart.show{transform:translateX(0)}
+.cart-head{
+display:flex;justify-content:space-between;
+align-items:center;border-bottom:1px solid #eadfdb;
+padding-bottom:18px
+}
+.close{
+border:0;background:#f2e5e3;
+width:38px;height:38px;border-radius:50%
+}
+.cart-items{flex:1;overflow:auto;padding:20px 0}
+.empty{text-align:center;color:#88797f;padding:50px 10px}
+.cart-item{
+display:flex;gap:12px;background:white;
+border:1px solid #eee2df;padding:10px;
+border-radius:14px;margin-bottom:13px
+}
+.cart-item img{
+width:68px;height:78px;object-fit:cover;border-radius:9px
+}
+.cart-item-info{flex:1}
+.cart-item-info h4{font-size:14px}
+.cart-item-info p{font-weight:bold;font-size:13px}
+.remove{
+border:0;background:none;color:#8c7e83;height:25px
+}
+.cart-bottom{
+border-top:1px solid #eadfdb;padding-top:18px
+}
+.total{
+display:flex;justify-content:space-between;
+font-size:20px;font-weight:900;margin-bottom:14px
+}
+.checkout{
+width:100%;border:0;background:#ed5275;
+color:white;padding:14px;border-radius:11px;font-weight:bold
+}
 
-    .city-circle {
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(66, 232, 195, 0.4);
-      border-radius: 50%;
-      background: rgba(66, 232, 195, 0.05);
-      box-shadow: 0 0 70px rgba(66, 232, 195, 0.12);
-    }
+.toast{
+position:fixed;bottom:25px;left:50%;
+transform:translate(-50%,100px);
+background:#241c1f;color:white;
+padding:13px 20px;border-radius:12px;
+z-index:500;opacity:0;transition:.3s
+}
+.toast.show{
+transform:translate(-50%,0);opacity:1
+}
 
-    .city-circle span {
-      color: var(--accent);
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: bold;
-    }
+@media(max-width:900px){
+.links{
+position:absolute;left:0;right:0;top:72px;
+background:#fff8f7;padding:20px;
+display:none;flex-direction:column;gap:16px;
+border-bottom:1px solid #eadfdb
+}
+.links.open{display:flex}
+.menu{display:block}
+.categories,.products{grid-template-columns:repeat(2,1fr)}
+.benefits{grid-template-columns:repeat(2,1fr)}
+.footer{grid-template-columns:repeat(2,1fr)}
+}
 
-    section {
-      padding: 80px 0;
-    }
-
-    h2 {
-      margin: 0 0 35px;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .card {
-      min-height: 230px;
-      padding: 28px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(16, 36, 60, 0.8);
-      transition: 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-
-    .card-number {
-      color: var(--accent-blue);
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-
-    .card h3 {
-      margin: 35px 0 12px;
-      font-size: 1.35rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .idea-box {
-      padding: 45px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: linear-gradient(
-        135deg,
-        rgba(66, 232, 195, 0.12),
-        rgba(88, 166, 255, 0.08)
-      );
-      text-align: center;
-    }
-
-    #idea {
-      min-height: 70px;
-      margin: 20px auto;
-      max-width: 750px;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    footer {
-      width: min(1100px, calc(100% - 32px));
-      margin: 50px auto 0;
-      padding: 35px 0;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    /* Հեռախոսի համար */
-    @media (max-width: 750px) {
-      header {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 20px 0;
-      }
-
-      nav {
-        flex-wrap: wrap;
-      }
-
-      .hero {
-        min-height: auto;
-        grid-template-columns: 1fr;
-        padding: 70px 0;
-      }
-
-      .city-circle {
-        width: min(350px, 85vw);
-        margin: auto;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .idea-box {
-        padding: 30px 20px;
-      }
-
-      footer {
-        flex-direction: column;
-      }
-    }
-  </style>
+@media(max-width:600px){
+.top{font-size:10px}
+.nav{min-height:65px;padding:0 12px}
+.logo{font-size:23px}
+.icon{width:37px;height:37px}
+.hero{padding:0 12px;margin-top:15px}
+.hero-box{
+min-height:540px;border-radius:25px;
+background-position:65% center
+}
+.hero-content{padding:30px;align-self:end;padding-bottom:38px}
+.hero h1{font-size:45px}
+.hero p{font-size:15px}
+.section{padding:0 12px;margin:60px auto}
+.heading{display:block}
+.heading h2{font-size:29px;margin-bottom:8px}
+.categories,.products{grid-template-columns:1fr 1fr;gap:10px}
+.category{height:205px;border-radius:16px}
+.category h3{font-size:18px}
+.photo{height:225px}
+.product{border-radius:15px}
+.info{padding:11px}
+.info h3{font-size:14px}
+.new{font-size:15px}
+.old{font-size:11px}
+.add{font-size:11px;padding:9px}
+.sale{padding:0 12px;margin:60px auto}
+.sale-box{display:block;padding:35px 25px}
+.sale h2{font-size:33px}
+.discount{font-size:48px;margin-top:15px}
+.benefits{gap:10px}
+.benefit{padding:18px 14px}
+.benefit h3{font-size:15px}
+.benefit p{font-size:12px}
+.newsletter{padding:35px 18px}
+.newsletter h2{font-size:28px}
+.form{flex-direction:column}
+.form input,.form button{width:100%}
+.footer{grid-template-columns:1fr 1fr;gap:28px 18px}
+.footer-brand{grid-column:1/-1}
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <a class="logo" href="#">FUTURE 2040</a>
 
-    <nav>
-      <a href="#about">Մեր քաղաքը</a>
-      <a href="#ideas">Ուղղություններ</a>
-      <a href="#experiment">Փորձարկում</a>
-    </nav>
-  </header>
+<!-- Վերևի հայտարարություն -->
+<div class="top">✨ ԱՆՎՃԱՐ ԱՌԱՔՈՒՄ՝ 30,000 ֏-ԻՑ ԲԱՐՁՐ ՊԱՏՎԵՐՆԵՐԻ ԴԵՊՔՈՒՄ ✨</div>
 
-  <main>
-    <section class="hero" id="about">
-      <div>
-        <p class="label">ԱՇԱԿԵՐՏԱԿԱՆ ՓՈՐՁՆԱԿԱՆ ԿԱՅՔ</p>
+<!-- Գլխավոր մենյու -->
+<header>
+<nav class="nav">
+<a href="#home" class="logo">VÉL<span>A</span></a>
 
-        <h1>Ապագայի քաղաքը սկսվում է այսօր</h1>
+<div class="links" id="links">
+<a href="#home">Գլխավոր</a>
+<a href="#categories">Կատեգորիաներ</a>
+<a href="#products">Նոր տեսականի</a>
+<a href="#sale">Զեղչեր</a>
+<a href="#about">Մեր մասին</a>
+</div>
 
-        <p>
-          Մենք պատկերացնում ենք խելացի, մաքուր և անվտանգ քաղաք,
-          որտեղ տեխնոլոգիան ծառայում է մարդկանց և բնությանը։
-        </p>
+<div class="actions">
+<button class="icon" onclick="notice('Որոնման բաժինը շուտով հասանելի կլինի 🔍')">⌕</button>
+<button class="icon" onclick="notice('Սիրված ապրանքները այստեղ են ♡')">♡</button>
+<button class="icon" onclick="openCart()">🛍<span class="count" id="count">0</span></button>
+<button class="icon menu" onclick="menu()">☰</button>
+</div>
+</nav>
+</header>
 
-        <a href="#ideas">
-          <button type="button">Բացահայտել գաղափարները</button>
-        </a>
-      </div>
+<main id="home">
 
-      <div class="city-circle">
-        <span>2040</span>
-      </div>
-    </section>
+<!-- Գլխավոր էջ -->
+<section class="hero">
+<div class="hero-box">
+<div class="hero-content">
+<span class="tag">ՆՈՐ ՀԱՎԱՔԱԾՈՒ • 2026</span>
+<h1>Քո ոճը.<br><span>Քո կանոնները.</span></h1>
+<p>
+Ժամանակակից, ոճային և որակյալ հագուստ՝ հարմար գներով։
+Ընտրիր այնպիսի ոճ, որը ցույց է տալիս հենց քո անհատականությունը։
+</p>
+<a class="btn" href="#products">Դիտել հավաքածուն →</a>
+</div>
+</div>
+</section>
 
-    <section id="ideas">
-      <p class="label">ՄԵՐ ՈՒՂՂՈՒԹՅՈՒՆՆԵՐԸ</p>
-      <h2>Ինչպիսի՞ն կլինի ապագայի քաղաքը</h2>
+<!-- Կատեգորիաներ -->
+<section class="section" id="categories">
+<div class="heading">
+<div>
+<h2>Ընտրիր քո ոճը</h2>
+<p>Ամեն օրվա համար՝ հարմարավետ, գեղեցիկ և ժամանակակից հագուստ։</p>
+</div>
+</div>
 
-      <div class="cards">
-        <article class="card">
-          <span class="card-number">01</span>
-          <h3>Մաքուր էներգիա</h3>
-          <p>
-            Քաղաքի շենքերն ու տրանսպորտը կաշխատեն արևային,
-            քամու և այլ վերականգնվող էներգիայով։
-          </p>
-        </article>
+<div class="categories">
+<a class="category c1" href="#products">
+<div><h3>Վերնաշապիկներ</h3><p>Թեթև և ժամանակակից</p></div>
+</a>
 
-        <article class="card">
-          <span class="card-number">02</span>
-          <h3>Խելացի տրանսպորտ</h3>
-          <p>
-            Էլեկտրական և ինքնավար տրանսպորտը կնվազեցնի
-            խցանումներն ու օդի աղտոտվածությունը։
-          </p>
-        </article>
+<a class="category c2" href="#products">
+<div><h3>Casual</h3><p>Հարմարավետ ամեն օր</p></div>
+</a>
 
-        <article class="card">
-          <span class="card-number">03</span>
-          <h3>Կանաչ տարածքներ</h3>
-          <p>
-            Այգիները, կանաչ տանիքներն ու քաղաքային ջերմոցները
-            կդառնան քաղաքի բնական լաբորատորիաները։
-          </p>
-        </article>
-      </div>
-    </section>
+<a class="category c3" href="#products">
+<div><h3>Կանացի</h3><p>Նուրբ և յուրահատուկ</p></div>
+</a>
 
-    <section id="experiment">
-      <div class="idea-box">
-        <p class="label">ԻՆՏԵՐԱԿՏԻՎ ՓՈՐՁԱՐԿՈՒՄ</p>
-        <h2>Ստացիր պատահական գաղափար</h2>
+<a class="category c4" href="#products">
+<div><h3>Street Style</h3><p>Քաղաքային նորաձևություն</p></div>
+</a>
+</div>
+</section>
 
-        <p id="idea">
-          Սեղմիր կոճակը և ստացիր ապագայի քաղաքի նոր գաղափար։
-        </p>
+<!-- Ապրանքներ -->
+<section class="section" id="products">
+<div class="heading">
+<div>
+<h2>Թրենդային ընտրանի</h2>
+<p>Նոր տեսականուց ընտրված ոճային մոդելները։</p>
+</div>
+<button class="btn" onclick="notice('Բոլոր ապրանքները արդեն ցուցադրված են ✨')">Բոլորը</button>
+</div>
 
-        <button id="idea-button" type="button">
-          Ստեղծել գաղափար
-        </button>
-      </div>
-    </section>
-  </main>
+<div class="products">
 
-  <footer>
-    <span>Futurology Lab</span>
-    <span>Փորձնական աշակերտական նախագիծ</span>
-  </footer>
+<!-- Ապրանք 1 -->
+<article class="product">
+<div class="photo">
+<span class="badge">ՆՈՐ</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=85" alt="Բաճկոն">
+</div>
+<div class="info">
+<span class="category-name">Streetwear</span>
+<h3>Urban սև բաճկոն</h3>
+<div class="price"><span class="new">32,900 ֏</span><span class="old">39,900 ֏</span></div>
+<button class="add" onclick="add('Urban սև բաճկոն',32900,'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
 
-  <script>
-    // Ապագայի քաղաքի գաղափարների ցանկ
-    const ideas = [
-      "Դպրոցի տանիքում ստեղծել արևային էներգիայով աշխատող ջերմոց։",
-      "Փողոցային լուսավորությունը միացնել միայն մարդու կամ մեքենայի շարժման դեպքում։",
-      "Ստեղծել ռոբոտ, որը կհավաքի և կտեսակավորի աղբը։",
-      "Անձրևաջուրը հավաքել և օգտագործել այգիների ոռոգման համար։",
-      "Կառուցել խելացի կանգառ, որը ցույց կտա տրանսպորտի ժամանման ժամանակը։",
-      "Քաղաքի տարբեր հատվածներում տեղադրել օդի որակը չափող սենսորներ։"
-    ];
+<!-- Ապրանք 2 -->
+<article class="product">
+<div class="photo">
+<span class="badge">ԹՐԵՆԴ</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=85" alt="Կաշվե բաճկոն">
+</div>
+<div class="info">
+<span class="category-name">Premium</span>
+<h3>Classic կաշվե բաճկոն</h3>
+<div class="price"><span class="new">44,900 ֏</span><span class="old">52,000 ֏</span></div>
+<button class="add" onclick="add('Classic կաշվե բաճկոն',44900,'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
 
-    const ideaText = document.querySelector("#idea");
-    const ideaButton = document.querySelector("#idea-button");
+<!-- Ապրանք 3 -->
+<article class="product">
+<div class="photo">
+<span class="badge">-20%</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=700&q=85" alt="Զգեստ">
+</div>
+<div class="info">
+<span class="category-name">Կանացի</span>
+<h3>Midi Elegant զգեստ</h3>
+<div class="price"><span class="new">27,900 ֏</span><span class="old">34,900 ֏</span></div>
+<button class="add" onclick="add('Midi Elegant զգեստ',27900,'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
 
-    // Կոճակը սեղմելիս ցուցադրում ենք պատահական գաղափար
-    ideaButton.addEventListener("click", function () {
-      const randomNumber = Math.floor(Math.random() * ideas.length);
-      ideaText.textContent = ideas[randomNumber];
-    });
-  </script>
+<!-- Ապրանք 4 -->
+<article class="product">
+<div class="photo">
+<span class="badge">ՆՈՐ</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=700&q=85" alt="Հուդի">
+</div>
+<div class="info">
+<span class="category-name">Casual</span>
+<h3>Soft Oversize հուդի</h3>
+<div class="price"><span class="new">24,900 ֏</span></div>
+<button class="add" onclick="add('Soft Oversize հուդի',24900,'https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
+
+<!-- Ապրանք 5 -->
+<article class="product">
+<div class="photo">
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=700&q=85" alt="Սվիտեր">
+</div>
+<div class="info">
+<span class="category-name">Minimal</span>
+<h3>Soft Beige սվիտեր</h3>
+<div class="price"><span class="new">21,900 ֏</span></div>
+<button class="add" onclick="add('Soft Beige սվիտեր',21900,'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
+
+<!-- Ապրանք 6 -->
+<article class="product">
+<div class="photo">
+<span class="badge">-15%</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=85" alt="Սպորտային կոշիկ">
+</div>
+<div class="info">
+<span class="category-name">Կոշիկներ</span>
+<h3>Daily Street Sneakers</h3>
+<div class="price"><span class="new">29,900 ֏</span><span class="old">35,000 ֏</span></div>
+<button class="add" onclick="add('Daily Street Sneakers',29900,'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
+
+<!-- Ապրանք 7 -->
+<article class="product">
+<div class="photo">
+<span class="badge">ՆՈՐ</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=700&q=85" alt="Սպիտակ վերնաշապիկ">
+</div>
+<div class="info">
+<span class="category-name">Classic</span>
+<h3>White Essential վերնաշապիկ</h3>
+<div class="price"><span class="new">18,900 ֏</span></div>
+<button class="add" onclick="add('White Essential վերնաշապիկ',18900,'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
+
+<!-- Ապրանք 8 -->
+<article class="product">
+<div class="photo">
+<span class="badge">-25%</span>
+<button class="heart" onclick="heart(this)">♡</button>
+<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=85" alt="Դենիմ վերնաշապիկ">
+</div>
+<div class="info">
+<span class="category-name">Denim</span>
+<h3>Classic Denim վերնաշապիկ</h3>
+<div class="price"><span class="new">22,900 ֏</span><span class="old">30,500 ֏</span></div>
+<button class="add" onclick="add('Classic Denim վերնաշապիկ',22900,'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
+</div>
+</article>
+
+</div>
+</section>
+
+<!-- Զեղչ -->
+<section class="sale" id="sale">
+<div class="sale-box">
+<div>
+<h2>Քո սիրելի ոճը<br>ավելի մատչելի ✨</h2>
+<p>
+Ընտրիր սեզոնի ընտրված մոդելները և ստացիր հատուկ զեղչ։
+Թարմացրու զգեստապահարանդ՝ առանց ավելորդ ծախսերի։
+</p>
+<a href="#products" class="btn">Գնումներ կատարել</a>
+</div>
+<div class="discount">ՄԻՆՉԵՎ<br>−25%</div>
+</div>
+</section>
+
+<!-- Ինչու մեզ -->
+<section class="section" id="about">
+<div class="heading">
+<div>
+<h2>Ինչու՞ VÉLA</h2>
+<p>Լավ հագուստը կարող է լինել գեղեցիկ, որակյալ և հասանելի։</p>
+</div>
+</div>
+
+<div class="benefits">
+<div class="benefit">
+<div class="benefit-icon">✦</div>
+<h3>Որակյալ նյութեր</h3>
+<p>Հարմարավետ և դիմացկուն նյութերից պատրաստված մոդելներ։</p>
+</div>
+
+<div class="benefit">
+<div class="benefit-icon">♡</div>
+<h3>Ժամանակակից ոճ</h3>
+<p>Նորաձև և հեշտ համադրելի հագուստ ամեն օրվա համար։</p>
+</div>
+
+<div class="benefit">
+<div class="benefit-icon">₾</div>
+<h3>Հարմար գներ</h3>
+<p>Գեղեցիկ և որակյալ հագուստ տարբեր բյուջեների համար։</p>
+</div>
+
+<div class="benefit">
+<div class="benefit-icon">⚡</div>
+<h3>Արագ սպասարկում</h3>
+<p>Պատվերի ձևակերպումը պարզ, արագ և հարմար է։</p>
+</div>
+</div>
+</section>
+
+<!-- Բաժանորդագրություն -->
+<section class="section">
+<div class="newsletter">
+<h2>Եղիր առաջինը ✨</h2>
+<p>Ստացիր նոր հավաքածուների և հատուկ առաջարկների մասին տեղեկությունները։</p>
+<form class="form" onsubmit="subscribe(event)">
+<input id="email" type="email" placeholder="Քո էլ․ փոստը" required>
+<button class="btn">Բաժանորդագրվել</button>
+</form>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+<div class="footer">
+
+<div class="footer-brand">
+<div class="footer-logo">VÉLA</div>
+<p>Ժամանակակից հագուստ նրանց համար, ովքեր սիրում են արտահայտել իրենց ոճը։</p>
+</div>
+
+<div>
+<h3>Խանութ</h3>
+<a href="#products">Նոր տեսականի</a>
+<a href="#products">Կանացի</a>
+<a href="#products">Casual</a>
+<a href="#sale">Զեղչեր</a>
+</div>
+
+<div>
+<h3>Օգնություն</h3>
+<a href="#" onclick="notice('Չափսերի ուղեցույցը շուտով հասանելի կլինի');return false">Չափսերի ուղեցույց</a>
+<a href="#" onclick="notice('Առաքման պայմանները շուտով հասանելի կլինեն');return false">Առաքում</a>
+<a href="#" onclick="notice('Վերադարձի պայմանները շուտով հասանելի կլինեն');return false">Վերադարձ</a>
+<a href="#" onclick="notice('Կապ՝ info@vela.am');return false">Կապ մեզ հետ</a>
+</div>
+
+<div>
+<h3>Հետևիր մեզ</h3>
+<a href="#" onclick="notice('Instagram էջը շուտով կավելացվի');return false">Instagram</a>
+<a href="#" onclick="notice('TikTok էջը շուտով կավելացվի');return false">TikTok</a>
+<a href="#" onclick="notice('Facebook էջը շուտով կավելացվի');return false">Facebook</a>
+</div>
+
+</div>
+
+<div class="copy">© 2026 VÉLA — Բոլոր իրավունքները պաշտպանված են։</div>
+</footer>
+
+<!-- Զամբյուղ -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="cart" id="cart">
+<div class="cart-head">
+<h2>Իմ զամբյուղը 🛍</h2>
+<button class="close" onclick="closeCart()">✕</button>
+</div>
+
+<div class="cart-items" id="items">
+<div class="empty">
+<div style="font-size:45px">🛍</div>
+<p>Քո զամբյուղը դեռ դատարկ է։</p>
+<p>Ընտրիր քեզ դուր եկած մոդելը։</p>
+</div>
+</div>
+
+<div class="cart-bottom">
+<div class="total">
+<span>Ընդհանուր</span>
+<span id="total">0 ֏</span>
+</div>
+<button class="checkout" onclick="checkout()">Ձևակերպել պատվերը →</button>
+</div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== Կայքի JavaScript-ը ===== */
+
+let cart=[];
+
+/* Բջջային մենյու */
+function menu(){
+document.getElementById("links").classList.toggle("open");
+}
+
+/* Սիրված ապրանք */
+function heart(btn){
+btn.classList.toggle("active");
+btn.textContent=btn.classList.contains("active")?"♥":"♡";
+if(btn.classList.contains("active")){
+notice("Ապրանքը ավելացվեց սիրվածների մեջ ♥");
+}
+}
+
+/* Ապրանքի ավելացում զամբյուղ */
+function add(name,price,image){
+let found=cart.find(item=>item.name===name);
+
+if(found){
+found.qty++;
+}else{
+cart.push({name,price,image,qty:1});
+}
+
+updateCart();
+notice("Ապրանքը ավելացվեց զամբյուղում 🛍");
+}
+
+/* Զամբյուղի թարմացում */
+function updateCart(){
+let items=document.getElementById("items");
+let count=document.getElementById("count");
+let total=document.getElementById("total");
+
+let quantity=cart.reduce((sum,item)=>sum+item.qty,0);
+let price=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+
+count.textContent=quantity;
+total.textContent=price.toLocaleString("hy-AM")+" ֏";
+
+if(cart.length===0){
+items.innerHTML=`
+<div class="empty">
+<div style="font-size:45px">🛍</div>
+<p>Քո զամբյուղը դեռ դատարկ է։</p>
+<p>Ընտրիր քեզ դուր եկած մոդելը։</p>
+</div>`;
+return;
+}
+
+items.innerHTML=cart.map((item,index)=>`
+<div class="cart-item">
+<img src="${item.image}" alt="${item.name}">
+<div class="cart-item-info">
+<h4>${item.name}</h4>
+<p>${item.price.toLocaleString("hy-AM")} ֏ × ${item.qty}</p>
+</div>
+<button class="remove" onclick="removeItem(${index})">✕</button>
+</div>
+`).join("");
+}
+
+/* Ապրանքի հեռացում */
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+notice("Ապրանքը հեռացվեց զամբյուղից");
+}
+
+/* Զամբյուղի բացում */
+function openCart(){
+document.getElementById("cart").classList.add("show");
+document.getElementById("overlay").classList.add("show");
+document.body.style.overflow="hidden";
+}
+
+/* Զամբյուղի փակում */
+function closeCart(){
+document.getElementById("cart").classList.remove("show");
+document.getElementById("overlay").classList.remove("show");
+document.body.style.overflow="";
+}
+
+/* Պատվերի կոճակ */
+function checkout(){
+if(cart.length===0){
+notice("Նախ ավելացրու ապրանք զամբյուղում 🛍");
+return;
+}
+
+notice("Պատվերը պատրաստ է ձևակերպման 💗");
+
+setTimeout(()=>{
+cart=[];
+updateCart();
+closeCart();
+},1700);
+}
+
+/* Բաժանորդագրություն */
+function subscribe(event){
+event.preventDefault();
+document.getElementById("email").value="";
+notice("Շնորհակալություն։ Դու միացար VÉLA-ի նորություններին ✨");
+}
+
+/* Ծանուցումներ */
+let toastTimer;
+
+function notice(message){
+let toast=document.getElementById("toast");
+
+clearTimeout(toastTimer);
+
+toast.textContent=message;
+toast.classList.add("show");
+
+toastTimer=setTimeout(()=>{
+toast.classList.remove("show");
+},2500);
+}
+
+/* Հղումը սեղմելուց հետո փակել բջջային մենյուն */
+document.querySelectorAll(".links a").forEach(link=>{
+link.addEventListener("click",()=>{
+document.getElementById("links").classList.remove("open");
+});
+});
+
+/* Սկզբնական զամբյուղ */
+updateCart();
+</script>
+
 </body>
 </html>

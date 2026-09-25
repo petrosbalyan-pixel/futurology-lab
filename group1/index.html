@@ -3,129 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Գունավոր Էջեր</title>
+    <title>Չորս Եղանակներ - Պրոֆեսիոնալ Դիզայն</title>
+    <!-- Google Fonts հանրահայտ տառատեսակի ներմուծում -->
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        /* Ընդհանուր ոճեր */
+        /* Ընդհանուր կարգավորումներ */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         body, html {
             width: 100%;
             height: 100%;
-            background-color: #000; /* Գլխավոր էջի սև ֆոն */
-            color: #fff;
             overflow: hidden;
+            background-color: #000;
         }
+
+        /* Էջերի հիմնական կոնտեյներ */
         .page {
-            display: none; /* Լռելյայն բոլոր էջերը թաքնված են */
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             position: absolute;
             top: 0;
             left: 0;
-        }
-        .page.active {
-            display: flex; /* Ակտիվ էջը ցուցադրվում է */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            z-index: 1;
         }
 
-        /* Կոճակների ոճերը (2սմ բարձրություն, 4սմ երկարություն) */
-        .color-btn {
-            width: 4cm;
-            height: 2cm;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
         }
-        .color-btn:hover {
+
+        /* Թափանցիկ մութ շերտ նկարների վրայից՝ տեքստը կարդալու համար */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 3;
+        }
+
+        /* Բովանդակության դասավորություն */
+        .content {
+            position: relative;
+            z-index: 4;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Ժամանակակից Մեծ Կոճակների Ցանց (Seasons Grid) */
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        @media (max-width: 768px) {
+            .seasons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 { font-size: 2.2rem; }
+        }
+
+        /* Պրոֆեսիոնալ քարտ-կոճակներ */
+        .season-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .season-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* Յուրահատուկ նեոնային լուսավորություն ամեն եղանակի համար հովեր անելիս */
+        .btn-spring:hover { box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); color: #81c784; }
+        .btn-summer:hover { box-shadow: 0 0 25px rgba(255, 152, 0, 0.6); color: #ffb74d; }
+        .btn-autumn:hover { box-shadow: 0 0 25px rgba(244, 67, 54, 0.6); color: #e57373; }
+        .btn-winter:hover { box-shadow: 0 0 25px rgba(33, 150, 243, 0.6); color: #64b5f6; }
+
+        /* Վերադարձի Կոճակ */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 30px;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 400;
+            transition: all 0.3s;
+            margin-top: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: #000;
             transform: scale(1.05);
         }
 
-        /* Կոճակների գույները */
-        .btn-yellow { background-color: #ffeb3b; color: #000; }
-        .btn-blue { background-color: #2196f3; color: #fff; }
-        .btn-red { background-color: #f44336; color: #fff; }
-        .btn-green { background-color: #4caf50; color: #fff; }
-
-        /* Վերադարձի կոճակ */
-        .back-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
+        /* Գլխավոր էջի բնության նկարը */
+        #main-page {
+            background-image: url('https://unsplash.com');
         }
 
-        /* Գունավոր էջերի ֆոները */
-        #yellow-page { background-color: #ffeb3b; color: #000; }
-        #blue-page { background-color: #2196f3; color: #fff; }
-        #red-page { background-color: #f44336; color: #fff; }
-        #green-page { background-color: #4caf50; color: #fff; }
+        /* Եղանակների էջերի նկարները */
+        #spring-page { background-image: url('https://unsplash.com'); }
+        #summer-page { background-image: url('https://unsplash.com'); }
+        #autumn-page { background-image: url('https://unsplash.com'); }
+        #winter-page { background-image: url('https://unsplash.com'); }
 
-        /* Չաթ պատուհանի ոճերը */
+        /* Պրոֆեսիոնալ Չաթ Պատուհան */
         .chat-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background-color: #1e1e1e;
-            border: 2px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            bottom: 25px;
+            right: 25px;
+            width: 320px;
+            background: rgba(20, 20, 20, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             display: flex;
             flex-direction: column;
-            z-index: 1000;
+            z-index: 100;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
+
         .chat-header {
-            background-color: #333;
-            padding: 10px;
-            font-weight: bold;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            text-align: center;
-            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .chat-header::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #4caf50;
+        }
+
         .chat-messages {
-            height: 150px;
-            padding: 10px;
+            height: 200px;
+            padding: 15px;
             overflow-y: auto;
-            font-size: 13px;
-            color: #ccc;
-            border-bottom: 1px solid #333;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
+
+        .msg {
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 85%;
+            line-height: 1.4;
+        }
+
+        .msg.ai {
+            background: rgba(255, 255, 255, 0.1);
+            color: #eee;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .msg.user {
+            background: #2196f3;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+        }
+
         .chat-input-area {
             display: flex;
-            padding: 5px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .chat-input-area input {
             flex: 1;
-            padding: 8px;
+            padding: 10px 15px;
             border: none;
-            border-radius: 4px;
-            background-color: #2a2a2a;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
             color: #fff;
             outline: none;
+            font-size: 0.85rem;
+            transition: background 0.3s;
         }
+
+        .chat-input-area input:focus {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
         .chat-input-area button {
-            padding: 8px 12px;
-            background-color: #4caf50;
-            color: white;
+            background: #fff;
+            color: #000;
             border: none;
-            border-radius: 4px;
-            margin-left: 5px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-left: 8px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .chat-input-area button:hover {
+            transform: scale(1.05);
+            background: #e0e0e0;
         }
     </style>
 </head>
@@ -133,97 +288,23 @@
 
     <!-- ԳԼԽԱՎՈՐ ԷՋ -->
     <div id="main-page" class="page active">
-        <h1 style="margin-bottom: 20px;">Գլխավոր Մենյու</h1>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-            <button class="color-btn btn-yellow" onclick="navigateTo('yellow-page')">Դեղին</button>
-            <button class="color-btn btn-blue" onclick="navigateTo('blue-page')">Կապույտ</button>
-            <button class="color-btn btn-red" onclick="navigateTo('red-page')">Կարմիր</button>
-            <button class="color-btn btn-green" onclick="navigateTo('green-page')">Կանաչ</button>
-        </div>
-    </div>
-
-    <!-- ԴԵՂԻՆ ԷՋ -->
-    <div id="yellow-page" class="page">
-        <h1 style="margin-bottom: 20px;">Դեղին Էջ</h1>
-        <button class="back-btn" onclick="navigateTo('main-page')">Վերադառնալ Մենյու</button>
-    </div>
-
-    <!-- ԿԱՊՈՒՅՏ ԷՋ -->
-    <div id="blue-page" class="page">
-        <h1 style="margin-bottom: 20px;">Կապույտ Էջ</h1>
-        <button class="back-btn" onclick="navigateTo('main-page')">Վերադառնալ Մենյու</button>
-    </div>
-
-    <!-- ԿԱՐՄԻՐ ԷՋ -->
-    <div id="red-page" class="page">
-        <h1 style="margin-bottom: 20px;">Կարմիր Էջ</h1>
-        <button class="back-btn" onclick="navigateTo('main-page')">Վերադառնալ Մենյու</button>
-    </div>
-
-    <!-- ԿԱՆԱՉ ԷՋ -->
-    <div id="green-page" class="page">
-        <h1 style="margin-bottom: 20px;">Կանաչ Էջ</h1>
-        <button class="back-btn" onclick="navigateTo('main-page')">Վերադառնալ Մենյու</button>
-    </div>
-
-    <!-- ՉԱԹ ՊԱՏՈՒՀԱՆ (ԱԲ-ին հարց տալու համար) -->
-    <div class="chat-container">
-        <div class="chat-header">Հարց տալ ԱԲ-ին</div>
-        <div class="chat-messages" id="chat-messages">
-            <div><em>ԱԲ: Ողջույն, ինչո՞վ կարող եմ օգնել:</em></div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Գրեք ձեր հարցը..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Ուղարկել</button>
-        </div>
-    </div>
-
-    <script>
-        // Էջերի միջև անցում կատարելու ֆունկցիա
-        function navigateTo(pageId) {
-            // Թաքցնել բոլոր էջերը
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Բնության Հրաշքները</h1>
+            <p>Բացահայտեք տարվա չորս եղանակների կախարդանքը և գեղեցկությունը</p>
             
-            // Ցուցադրել ընտրված էջը
-            document.getElementById(pageId).classList.add('active');
-        }
+            <div class="seasons-grid">
+                <button class="season-btn btn-spring" onclick="navigateTo('spring-page')">Գարուն</button>
+                <button class="season-btn btn-summer" onclick="navigateTo('summer-page')">Ամառ</button>
+                <button class="season-btn btn-autumn" onclick="navigateTo('autumn-page')">Աշուն</button>
+                <button class="season-btn btn-winter" onclick="navigateTo('winter-page')">Ձմեռ</button>
+            </div>
+        </div>
+    </div>
 
-        // Չաթում հաղորդագրություն ուղարկելու ֆունկցիա
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const messagesContainer = document.getElementById('chat-messages');
-            const text = input.value.trim();
-
-            if (text !== '') {
-                // Օգտատիրոջ հաղորդագրությունը
-                const userMsg = document.createElement('div');
-                userMsg.style.margin = '5px 0';
-                userMsg.innerHTML = `<strong>Դուք:</strong> ${text}`;
-                messagesContainer.appendChild(userMsg);
-
-                input.value = ''; // Մաքրել դաշտը
-                messagesContainer.scrollTop = messagesContainer.scrollHeight; // Իջեցնել ներքև
-
-                // ԱԲ-ի պատասխանի սիմուլյացիա (ավտոմատ պատասխան)
-                setTimeout(() => {
-                    const aiMsg = document.createElement('div');
-                    aiMsg.style.margin = '5px 0';
-                    aiMsg.style.color = '#4caf50';
-                    aiMsg.innerHTML = `<strong>ԱԲ:</strong> Շնորհակալություն հարցի համար: Սա չաթի ձևանմուշ է:`;
-                    messagesContainer.appendChild(aiMsg);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }, 1000);
-            }
-        }
-
-        // Enter սեղմելիս հաղորդագրությունն ուղարկելու համար
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
-    </script>
-
-</body>
-</html>
+    <!-- ԳԱՐՈՒՆ ԷՋ -->
+    <div id="spring-page" class="page">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Ծաղկուն Գարուն</h1>
+            <p>Կյանքի զարթոնք, կանաչող դաշտեր և թարմություն։</p>

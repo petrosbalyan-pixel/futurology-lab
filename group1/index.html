@@ -1,310 +1,45 @@
-<!DOCTYPE html>
-<html lang="hy">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Չորս Եղանակներ - Պրոֆեսիոնալ Դիզայն</title>
-    <!-- Google Fonts հանրահայտ տառատեսակի ներմուծում -->
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        /* Ընդհանուր կարգավորումներ */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-        }
-
-        /* Էջերի հիմնական կոնտեյներ */
-        .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            z-index: 1;
-        }
-
-        .page.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 2;
-        }
-
-        /* Թափանցիկ մութ շերտ նկարների վրայից՝ տեքստը կարդալու համար */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
-            z-index: 3;
-        }
-
-        /* Բովանդակության դասավորություն */
-        .content {
-            position: relative;
-            z-index: 4;
-            text-align: center;
-            color: #fff;
-            padding: 20px;
-            max-width: 900px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            color: #e0e0e0;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        /* Ժամանակակից Մեծ Կոճակների Ցանց (Seasons Grid) */
-        .seasons-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        @media (max-width: 768px) {
-            .seasons-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            h1 { font-size: 2.2rem; }
-        }
-
-        /* Պրոֆեսիոնալ քարտ-կոճակներ */
-        .season-btn {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px 20px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .season-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-        }
-
-        /* Յուրահատուկ նեոնային լուսավորություն ամեն եղանակի համար հովեր անելիս */
-        .btn-spring:hover { box-shadow: 0 0 25px rgba(76, 175, 80, 0.6); color: #81c784; }
-        .btn-summer:hover { box-shadow: 0 0 25px rgba(255, 152, 0, 0.6); color: #ffb74d; }
-        .btn-autumn:hover { box-shadow: 0 0 25px rgba(244, 67, 54, 0.6); color: #e57373; }
-        .btn-winter:hover { box-shadow: 0 0 25px rgba(33, 150, 243, 0.6); color: #64b5f6; }
-
-        /* Վերադարձի Կոճակ */
-        .back-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 30px;
-            font-size: 1rem;
-            color: #fff;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 400;
-            transition: all 0.3s;
-            margin-top: 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .back-btn:hover {
-            background: #fff;
-            color: #000;
-            transform: scale(1.05);
-        }
-
-        /* Գլխավոր էջի բնության նկարը */
-        #main-page {
-            background-image: url('https://unsplash.com');
-        }
-
-        /* Եղանակների էջերի նկարները */
-        #spring-page { background-image: url('https://unsplash.com'); }
-        #summer-page { background-image: url('https://unsplash.com'); }
-        #autumn-page { background-image: url('https://unsplash.com'); }
-        #winter-page { background-image: url('https://unsplash.com'); }
-
-        /* Պրոֆեսիոնալ Չաթ Պատուհան */
-        .chat-container {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 320px;
-            background: rgba(20, 20, 20, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .chat-header {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #fff;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-header::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #4caf50;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #4caf50;
-        }
-
-        .chat-messages {
-            height: 200px;
-            padding: 15px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .msg {
-            padding: 8px 12px;
-            border-radius: 12px;
-            max-width: 85%;
-            line-height: 1.4;
-        }
-
-        .msg.ai {
-            background: rgba(255, 255, 255, 0.1);
-            color: #eee;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .msg.user {
-            background: #2196f3;
-            color: #fff;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            outline: none;
-            font-size: 0.85rem;
-            transition: background 0.3s;
-        }
-
-        .chat-input-area input:focus {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .chat-input-area button {
-            background: #fff;
-            color: #000;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            margin-left: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .chat-input-area button:hover {
-            transform: scale(1.05);
-            background: #e0e0e0;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- ԳԼԽԱՎՈՐ ԷՋ -->
-    <div id="main-page" class="page active">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Բնության Հրաշքները</h1>
-            <p>Բացահայտեք տարվա չորս եղանակների կախարդանքը և գեղեցկությունը</p>
-            
-            <div class="seasons-grid">
-                <button class="season-btn btn-spring" onclick="navigateTo('spring-page')">Գարուն</button>
-                <button class="season-btn btn-summer" onclick="navigateTo('summer-page')">Ամառ</button>
-                <button class="season-btn btn-autumn" onclick="navigateTo('autumn-page')">Աշուն</button>
-                <button class="season-btn btn-winter" onclick="navigateTo('winter-page')">Ձմեռ</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ԳԱՐՈՒՆ ԷՋ -->
-    <div id="spring-page" class="page">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Ծաղկուն Գարուն</h1>
-            <p>Կյանքի զարթոնք, կանաչող դաշտեր և թարմություն։</p>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Diakonia · A place to grow</title><meta name="description" content="Explore six creative learning clubs at Diakonia Center"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23cb3e66'/%3E%3Ctext x='7' y='25' font-size='28' fill='white'%3Ed%3C/text%3E%3C/svg%3E"><style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden}body{font-family:Arial,sans-serif;background:#eceeea;color:#23332e}button{font:inherit;color:inherit;cursor:pointer;border:0}button:focus-visible{outline:3px solid #b32d59;outline-offset:4px}header{position:fixed;inset:0 0 auto;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:22px 30px;pointer-events:none}header>*{pointer-events:auto}.brand{display:flex;gap:12px;align-items:center;font-weight:bold;font-size:21px}.logo{width:38px;height:38px;border-radius:13px;background:#cb3e66;color:white;display:grid;place-items:center;font:28px Georgia}.brand small{display:block;font-size:10px;letter-spacing:.18em;color:#697773;margin-top:5px}.tools,.languages{display:flex;gap:6px;align-items:center}.languages{border:1px solid #ccd3cb;border-radius:30px;background:#fffefb;padding:4px}.languages button{background:transparent;border-radius:20px;padding:8px 10px;font-size:14px}.languages button[aria-pressed=true]{background:#263e35;color:white}.pill{border:1px solid #ccd3cb;border-radius:24px;background:#fffefb;padding:12px 17px;font-size:14px}#stage{position:absolute;inset:0;touch-action:none;cursor:grab}#world{position:absolute;left:50%;top:50%;transform-origin:0 0;will-change:transform}.grid{position:absolute;left:-6500px;top:-4500px;width:13000px;height:9000px;background:radial-gradient(#bec8c0 1px,transparent 1px);background-size:32px 32px;pointer-events:none}.routes{position:absolute;overflow:visible;pointer-events:none}.route{fill:none;stroke-width:3;opacity:.45}.glow{fill:none;stroke-width:90;opacity:.045}.route.robotics{stroke-dasharray:12 9}.route.weaving{stroke-width:6;stroke-dasharray:3 12}.route.english{stroke-dasharray:30 10}.route.math{stroke-dasharray:3 8}.panel{--accent:#bc365f;--wash:#f8eaf0;position:absolute;width:980px;height:600px;transform:translate(-50%,-50%);background:#fffefb;border:1px solid #d2d8d0;border-radius:22px;box-shadow:0 25px 60px #243c3710;display:grid;grid-template-columns:1.15fr 1fr;overflow:hidden;cursor:default}.panel.active{border-color:var(--accent);box-shadow:0 25px 65px #243c3720}.copy{padding:36px 36px 24px;display:flex;flex-direction:column;min-width:0}.kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:bold;display:flex;gap:10px;align-items:center}.kicker:before{content:'';width:25px;height:2px;background:var(--accent)}h1,h2{font:400 51px/1.08 Georgia,serif;letter-spacing:-.04em;margin:23px 0 18px}html[lang=hy] h1,html[lang=hy] h2{font-size:37px;line-height:1.2;letter-spacing:-.025em}.intro{font-size:16px;line-height:1.6;color:#5b6865;margin:0 0 18px}.clubs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto}.club-link{display:flex;gap:10px;align-items:center;text-align:left;padding:13px 10px;border:1px solid #e0e5dc;border-radius:10px;background:white;font-size:14px;min-height:48px}.club-link i{font-style:normal;font-size:12px;color:var(--link);font-weight:bold;width:24px}.club-link:hover{border-color:var(--link)}.visual{position:relative;margin:16px 16px 16px 0;border-radius:13px;overflow:hidden;background:var(--wash)}.visual img{width:100%;height:100%;object-fit:cover;display:block}.visual:after{content:'';position:absolute;inset:40% 0 0;background:linear-gradient(transparent,#071813bf);pointer-events:none}.image-label{position:absolute;z-index:1;bottom:25px;left:25px;right:22px;color:white;font:29px/1.15 Georgia}.image-label small{font:12px Arial;display:block;letter-spacing:.12em;margin-bottom:12px}.credit{position:absolute;z-index:2;top:12px;left:12px;border-radius:20px;background:#fffefbe8;font-size:11px;color:#34443d;padding:7px 10px}.footer{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid #e2e6df;padding-top:15px;margin-top:18px;font-size:11px;color:#75827b}.back{background:none;padding:0;color:var(--accent);font-size:14px}.branches{display:grid;gap:9px;margin-top:auto}.branches button{display:flex;align-items:center;gap:14px;padding:14px;text-align:left;border:1px solid #d8dfda;background:var(--wash);border-radius:8px;font-size:15px}.branches b{font-size:12px;color:var(--accent)}.robotics{--accent:#187a96;--wash:#e9f5f8;border-radius:8px}.robotics .kicker,.robotics .image-label{font-family:monospace}.art{--accent:#b53588;--wash:#f7e7f2}.art .visual{border-radius:100px 14px 14px 14px}.pottery{--accent:#9a4c30;--wash:#f8eee5;border-radius:38px}.pottery .visual{border-radius:180px 180px 16px 16px}.weaving{--accent:#9e313f;--wash:#f7e9e7;border-radius:4px;border:5px double #c68d86}.weaving .visual{border-radius:2px}.weaving .kicker:before{height:12px;background:repeating-linear-gradient(45deg,var(--accent) 0 2px,transparent 2px 5px)}.english{--accent:#3e5ba6;--wash:#edf0fb}.english h2{font-style:italic}.math{--accent:#326f54;--wash:#eaf5ed;border-radius:12px}.math .copy{background-image:linear-gradient(#32705206 1px,transparent 1px),linear-gradient(90deg,#32705206 1px,transparent 1px);background-size:22px 22px}.detail{grid-template-columns:1fr}.detail .copy{padding:36px 44px}.detail h2{font-size:40px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:15px 0}.card{padding:23px;border-radius:12px;background:var(--wash);min-height:190px}.card span{color:var(--accent);font-size:13px}.card h3{font-size:19px;font-weight:500;margin:16px 0 11px}.card p{font-size:15px;line-height:1.55;color:#5a6761;margin:0}.detail-nav{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap}.detail-nav button{background:var(--wash);border:1px solid #d5ded5;border-radius:20px;padding:10px 14px;font-size:14px}.empty{padding:30px;background:var(--wash);border-radius:15px;margin:12px 0 22px}.empty h3{font-size:24px;font-weight:400;margin:0 0 12px}.empty p{font-size:17px;color:#59655f;line-height:1.7;max-width:710px}.sample{font-size:12px;color:var(--accent)}.bottom{position:fixed;bottom:22px;left:30px;z-index:10;display:flex;gap:8px;align-items:center}.round{width:42px;height:42px;border:1px solid #cbd1cc;border-radius:50%;background:#fffefb;font-size:23px}#zoom{font-size:12px;min-width:40px;text-align:center}.hint{font-size:12px;color:#6c7871;margin-left:10px}#location{position:fixed;top:95px;left:32px;font-size:12px;color:#64746d;z-index:4;pointer-events:none}.map-wrap{position:fixed;right:28px;bottom:20px;z-index:10;border:1px solid #d0d7cc;background:#fafbf5ed;border-radius:14px;width:192px;height:143px;padding:8px}#minimap{width:176px;height:112px}.map-title{text-align:center;font-size:10px;letter-spacing:.08em;color:#60736a}.map-node{cursor:pointer;stroke:#fafbf5;stroke-width:25}.map-node.active{stroke:#152b23;stroke-width:35}.map-line{stroke:#a9b7aa;stroke-width:13}#map-current{fill:none;stroke:#264435;stroke-width:15;pointer-events:none}.panel:not(.active){cursor:pointer}.panel:not(.active) .copy,.panel:not(.active) button{pointer-events:none}
+@media(max-width:700px){header{padding:13px 14px}.brand{font-size:17px;gap:8px}.brand small{font-size:9px}.logo{width:30px;height:32px;font-size:22px}.tools{gap:5px}.languages button{padding:7px 8px;font-size:12px}.tools>.pill{padding:10px;font-size:12px}.panel{width:350px;height:620px;grid-template-columns:1fr;grid-template-rows:1fr 178px;border-radius:18px}.copy{padding:24px 24px 14px}.visual{margin:0 14px 14px}.visual img{object-position:center 45%}.image-label{font-size:21px;bottom:16px;left:16px}.image-label small{display:none}.credit{font-size:10px;padding:5px 8px}.kicker{font-size:10px}h1,h2{font-size:36px;margin:16px 0 12px}html[lang=hy] h1,html[lang=hy] h2{font-size:28px}.intro{font-size:15px;line-height:1.5;margin-bottom:14px}.club-link{font-size:13px;padding:10px 8px;min-height:42px;gap:4px}.clubs{gap:6px}.footer{margin-top:12px;padding-top:10px;font-size:10px}.branches button{font-size:14px;padding:11px}.branches{gap:7px}.art .visual,.pottery .visual{border-radius:12px}.detail{grid-template-rows:1fr}.detail .copy{padding:25px}.detail h2{font-size:31px}.cards{gap:8px;grid-template-columns:1fr;margin:10px 0}.card{min-height:0;padding:12px 15px}.card span{display:none}.card h3{font-size:16px;margin:0 0 7px}.card p{font-size:14px;line-height:1.45}.detail-nav{gap:6px}.detail-nav button{font-size:12px;padding:8px}.empty{padding:20px}.empty h3{font-size:21px}.empty p{font-size:15px}.bottom{bottom:14px;left:14px;gap:5px}.hint{display:none}.bottom .pill{font-size:12px;padding:12px}.round{width:36px;height:36px}#location{top:71px;left:16px;font-size:11px}.map-wrap{display:none}}
+</style></head><body><header><div class="brand"><span class="logo">d</span><div>diakonia<small id="brandSub"></small></div></div><div class="tools"><div class="languages" aria-label="Language"><button data-lang="en" aria-pressed="true">ENG</button><button data-lang="hy" aria-pressed="false">ՀԱՅ</button></div><button class="pill" id="homeButton"></button></div></header><div id="location" aria-live="polite"></div><main id="stage" aria-label="Diakonia learning map"><div id="world"><div class="grid"></div><svg class="routes" width="1" height="1" aria-hidden="true"></svg></div></main><div class="bottom"><button id="minus" class="round">−</button><span id="zoom"></span><button id="plus" class="round">+</button><button id="overview" class="pill"></button><span class="hint" id="hint"></span></div><nav class="map-wrap" aria-label="Map"><svg id="minimap" viewBox="-5100 -3600 10200 7200"></svg><div class="map-title" id="mapTitle"></div></nav><script>
+// EDIT PHOTOGRAPHS HERE: replace each URL with a direct image URL.
+const IMAGE_URLS={
+home:'https://upload.wikimedia.org/wikipedia/commons/4/40/Students_learning_together_%28Unsplash%29.jpg',
+robotics:'https://images.unsplash.com/photo-1589254065909-b7086229d08c?auto=format&fit=crop&w=1200&q=85',
+art:'https://images.unsplash.com/photo-1520856990214-7a9e59dd5ff7?auto=format&fit=crop&w=1200&q=85',
+pottery:'https://images.unsplash.com/photo-1675101337462-a19b63af8b1b?auto=format&fit=crop&w=1200&q=85',
+weaving:'https://images.pexels.com/photos/16725459/pexels-photo-16725459/free-photo-of-man-weaving-a-carpet.jpeg?auto=compress&dpr=1&h=750&w=1260',
+english:'https://images.unsplash.com/photo-1515125520141-3e3b67bc0a88?auto=format&fit=crop&w=1200&q=85',
+math:'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=1200&q=85'};
+const tr=(en,hy)=>({en,hy});
+const clubs=[
+{id:'robotics',color:'#187a96',name:tr('Robotics','Ռոբոտաշինություն'),tag:tr('Imagine. Build. Test.','Մտածել։ Կառուցել։ Փորձարկել։'),desc:tr('Turn curiosity into working ideas. Explore how code, motion and a little persistence can bring a machine to life.','Հետաքրքրությունը վերածել աշխատող գաղափարի։ Բացահայտել, թե ինչպես են կոդը, շարժումը և համառությունը կյանք տալիս սարքերին։'),items:[tr('First circuits','Առաջին շղթաները'),tr('A robot in motion','Շարժվող ռոբոտ'),tr('Build a solution','Ստեղծել լուծում')],skills:[tr('Explore sensors and simple circuits.','Բացահայտել սենսորներն ու պարզ շղթաները։'),tr('Connect code with movement.','Միավորել ծրագրավորումն ու շարժումը։'),tr('Test, improve and explain a design.','Փորձարկել, բարելավել և ներկայացնել աշխատանքը։')]},
+{id:'art',color:'#b53588',name:tr('Art','Արվեստ'),tag:tr('Make room for imagination.','Տեղ տալ երևակայությանը։'),desc:tr('A line, a colour, a new way of seeing. Discover your own visual language through drawing, painting and playful experiments.','Գիծ, գույն և աշխարհին նայելու նոր ձև։ Գտնել սեփական արտահայտչամիջոցը նկարչության և ստեղծագործական փորձերի միջոցով։'),items:[tr('Colour & composition','Գույն և կոմպոզիցիա'),tr('Stories in pictures','Պատմություններ պատկերներով'),tr('A personal collection','Անհատական հավաքածու')],skills:[tr('Experiment with colour and shape.','Փորձարկել գույնն ու ձևը։'),tr('Express an idea through an image.','Արտահայտել գաղափարը պատկերով։'),tr('Select and present original pieces.','Ներկայացնել սեփական գործերը։')]},
+{id:'pottery',color:'#9a4c30',name:tr('Pottery','Կավագործություն'),tag:tr('Ideas take shape.','Գաղափարները ձև են ստանում։'),desc:tr('Slow down and create with your hands. Follow the journey from a handful of clay to an object with its own character.','Ստեղծել սեփական ձեռքերով։ Անցնել կավի մի փոքր կտորից մինչև իր բնավորությունն ունեցող առարկայի ճանապարհը։'),items:[tr('Meet the material','Ծանոթանալ կավին'),tr('Form & texture','Ձև և մակերես'),tr('From clay to object','Կավից՝ առարկա')],skills:[tr('Learn to shape and join clay.','Սովորել ձևավորել և միացնել կավը։'),tr('Explore surfaces and simple forms.','Փորձարկել մակերեսներն ու ձևերը։'),tr('Develop a finished handmade piece.','Ստեղծել ավարտուն ձեռագործ աշխատանք։')]},
+{id:'weaving',color:'#9e313f',name:tr('Carpet weaving','Գորգագործություն'),tag:tr('Every thread tells a story.','Ամեն թել մի պատմություն է։'),desc:tr('Connect patient hands with living tradition. Explore the rhythm of weaving, the meaning of motifs and the possibilities of colour.','Միավորել ձեռքի աշխատանքն ու կենդանի ավանդույթը։ Բացահայտել հյուսքի ռիթմը, զարդանախշերը և գույների համադրությունները։'),items:[tr('Threads & tools','Թելեր և գործիքներ'),tr('The language of motifs','Զարդանախշերի լեզուն'),tr('Weave a small piece','Հյուսել փոքր աշխատանք')],skills:[tr('Discover the loom and basic techniques.','Ծանոթանալ դազգահին ու հիմնական հնարքներին։'),tr('Explore patterns and colour sequences.','Բացահայտել նախշերն ու գույները։'),tr('Create an individual woven sample.','Ստեղծել անհատական հյուսվածք։')]},
+{id:'english',color:'#3e5ba6',name:tr('English','Անգլերեն'),tag:tr('A new language. More possibilities.','Նոր լեզու։ Նոր հնարավորություններ։'),desc:tr('Find the confidence to join the conversation. Learn through stories, everyday situations and ideas worth sharing.','Գտնել զրույցին միանալու վստահությունը։ Սովորել պատմությունների և առօրյա իրավիճակների միջոցով։'),items:[tr('Everyday conversations','Առօրյա զրույցներ'),tr('Read & discover','Կարդալ և բացահայտել'),tr('Share your story','Պատմել քո պատմությունը')],skills:[tr('Practise useful words in real contexts.','Կիրառել նոր բառերն առօրյայում։'),tr('Build understanding through short texts.','Զարգացնել ընկալումը կարճ տեքստերով։'),tr('Prepare and give a short presentation.','Պատրաստել փոքրիկ ելույթ։')]},
+{id:'math',color:'#326f54',name:tr('Mathematics','Մաթեմատիկա'),tag:tr('Find the beauty in the why.','Բացահայտել «ինչու»-ի գեղեցկությունը։'),desc:tr('Look for patterns, ask better questions and try another route. Mathematics becomes a place for discovery, not just answers.','Փնտրել օրինաչափություններ, հարցեր տալ և փորձել այլ ճանապարհ։ Մաթեմատիկան բացահայտումների տարածք է՝ պատասխաններից անդին։'),items:[tr('Patterns & logic','Օրինաչափություններ և տրամաբանություն'),tr('Shapes & space','Ձևեր և տարածություն'),tr('Everyday problems','Առօրյա խնդիրներ')],skills:[tr('Investigate sequences and puzzles.','Ուսումնասիրել գլուխկոտրուկները։'),tr('Explore geometry with visual models.','Բացահայտել երկրաչափությունը մոդելներով։'),tr('Explain a solution step by step.','Բացատրել լուծումը քայլ առ քայլ։')]}
+];
+const ui={home:tr('The center','Գլխավոր'),sub:tr('A PLACE TO GROW','ԱՃԵԼՈՒ ՏԱՐԱԾՔ'),overview:tr('Explore the map','Ամբողջ քարտեզը'),hint:tr('Drag to explore · + / − to zoom','Քաշիր՝ շարժվելու համար · + / −՝ զում'),map:tr('SIX PATHS. ONE COMMUNITY.','ՎԵՑ ՈՒՂԻ։ ՄԵԿ ՀԱՄԱՅՆՔ։'),works:tr('Work & achievements','Աշխատանքներ և արդյունքներ'),programs:tr('Programs','Ծրագրեր'),students:tr('Students','Աշակերտներ'),back:tr('Back to the club','Վերադառնալ խմբակ'),sample:tr('Illustrative program outline','Ծրագրի օրինակային կառուցվածք'),photo:tr('Illustrative photograph','Թեմատիկ լուսանկար')};
+let lang='en',current='home',cx=0,cy=0,z=1,anim=0,overviewMode=false;const $=s=>document.querySelector(s),t=v=>v[lang],world=$('#world'),stage=$('#stage'),ns='http://www.w3.org/2000/svg',nodes=[{id:'home',x:0,y:0,color:'#bd395f'}],reduce=matchMedia('(prefers-reduced-motion: reduce)');
+clubs.forEach((c,i)=>{const a=(-120+i*60)*Math.PI/180;c.x=Math.cos(a)*1800;c.y=Math.sin(a)*1250;c.index=i;nodes.push(c);['works','programs','students'].forEach((kind,j)=>{const b=a+(j-1)*18*Math.PI/180;nodes.push({id:c.id+'-'+kind,x:Math.cos(b)*4500,y:Math.sin(b)*3200,club:c,kind,color:c.color})})});
+const get=id=>nodes.find(n=>n.id===id),name=n=>n.id==='home'?t(tr('Diakonia Center','Դիակոնիա կենտրոն')):n.club?t(ui[n.kind]):t(n.name);
+function nav(id,label,cls=''){return `<button class="${cls}" data-go="${id}">${label}</button>`}
+function photo(id,label){return `<div class="visual"><img src="${IMAGE_URLS[id]}" alt="${label}" draggable="false"><span class="credit">${t(ui.photo)}</span><div class="image-label"><small>${t(tr('LEARN / MAKE / BELONG','ՍՈՎՈՐԵԼ / ՍՏԵՂԾԵԼ / ՄԻԱՎՈՐՎԵԼ'))}</small>${label}</div></div>`}
+function footer(n){return `<div class="footer">${n.id==='home'?'<span>'+t(tr('01 CENTER / 06 CLUBS','01 ԿԵՆՏՐՈՆ / 06 ԽՄԲԱԿ'))+'</span>':nav('home',t(ui.home),'back')}<span>DIAKONIA</span></div>`}
+function render(){document.documentElement.lang=lang;document.title=t(tr('Diakonia · A place to grow','Դիակոնիա · Աճելու տարածք'));document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));$('#brandSub').textContent=t(ui.sub);$('#homeButton').textContent=t(ui.home);$('#overview').textContent=t(ui.overview);$('#hint').textContent=t(ui.hint);$('#mapTitle').textContent=t(ui.map);$('#plus').setAttribute('aria-label',t(tr('Zoom in','Մոտեցնել')));$('#minus').setAttribute('aria-label',t(tr('Zoom out','Հեռացնել')));document.querySelectorAll('.panel').forEach(e=>e.remove());
+nodes.forEach(n=>{const p=document.createElement('section');p.className='panel '+(n.club?n.club.id+' detail':n.id);p.dataset.node=n.id;p.style.left=n.x+'px';p.style.top=n.y+'px';p.setAttribute('aria-label',name(n));let content='';
+if(n.id==='home'){content=`<div class="copy"><div class="kicker">${t(tr('Welcome to Diakonia Center','Բարի գալուստ Դիակոնիա կենտրոն'))}</div><h1>${t(tr('Small discoveries.<br>Brighter futures.','Փոքր բացահայտումներ։<br>Նոր հնարավորություններ։'))}</h1><p class="intro">${t(tr('A place to learn, make and belong. Explore six paths where curiosity grows into skill, creativity and connection.','Սովորելու, ստեղծելու և միասին աճելու վայր։ Վեց ուղղություն, որտեղ հետաքրքրությունը դառնում է հմտություն, ստեղծագործություն և ընկերություն։'))}</p><nav class="clubs">${clubs.map((c,i)=>`<button class="club-link" style="--link:${c.color}" data-go="${c.id}"><i>0${i+1}</i>${t(c.name)}</button>`).join('')}</nav>${footer(n)}</div>${photo('home',t(tr('Growing, together.','Աճում ենք միասին։')))}`}
+else if(!n.club){content=`<div class="copy"><div class="kicker">0${n.index+1} / ${t(n.name)}</div><h2>${t(n.tag)}</h2><p class="intro">${t(n.desc)}</p><nav class="branches">${['works','programs','students'].map((k,i)=>nav(n.id+'-'+k,`<b>0${i+1}</b> ${t(ui[k])}`)).join('')}</nav>${footer(n)}</div>${photo(n.id,t(n.name))}`}
+else{const c=n.club;let inner='';if(n.kind==='programs'){inner=`<div class="sample">${t(ui.sample)}</div><div class="cards">${c.items.map((v,i)=>`<article class="card"><span>0${i+1}</span><h3>${t(v)}</h3><p>${t(c.skills[i])}</p></article>`).join('')}</div>`}else if(n.kind==='works'){inner=`<div class="empty"><h3>${t(tr('Every project has a story.','Ամեն աշխատանք իր պատմությունն ունի։'))}</h3><p>${t(tr('This is where finished pieces, experiments and milestones from the club will be shared. The first collection is waiting for the center’s photographs and project stories.','Այստեղ կներկայացվեն խմբակի ավարտուն գործերը, փորձերն ու ձեռքբերումները։ Առաջին հավաքածուն կլրացվի կենտրոնի լուսանկարներով և աշխատանքների պատմություններով։'))}</p></div>`}else{inner=`<div class="empty"><h3>${t(tr('Meet the people behind the ideas.','Ծանոթանալ գաղափարների հեղինակներին։'))}</h3><p>${t(tr('A space for learners’ interests, creative journeys and voices. Student introductions will appear here when the center provides approved profiles.','Տարածք՝ աշակերտների հետաքրքրությունների, ստեղծագործական ճանապարհի և մտքերի համար։ Ներկայացումները կավելացվեն կենտրոնի հաստատած նյութերը ստանալուց հետո։'))}</p></div>`}content=`<div class="copy"><div class="kicker">${t(c.name)}</div><h2>${name(n)}</h2>${inner}<nav class="detail-nav">${nav(c.id,t(ui.back))}${['works','programs','students'].filter(k=>k!==n.kind).map(k=>nav(c.id+'-'+k,t(ui[k]))).join('')}</nav>${footer(n)}</div>`}
+p.innerHTML=content;world.append(p);n.el=p;const im=p.querySelector('img');if(im)im.onerror=()=>{im.style.opacity=0;};});mark();draw()}
+function svg(tag,attrs,parent){const e=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));parent.append(e);return e}
+nodes.filter(n=>n.id!=='home').forEach(n=>{const p=n.club||get('home'),kind=n.club?n.club.id:n.id,d=`M ${p.x} ${p.y} Q ${(p.x+n.x)/2} ${p.y} ${n.x} ${n.y}`;svg('path',{d,stroke:n.color,class:'glow'},$('.routes'));svg('path',{d,stroke:n.color,class:'route '+kind},$('.routes'));svg('line',{x1:p.x,y1:p.y,x2:n.x,y2:n.y,class:'map-line'},$('#minimap'))});nodes.forEach(n=>{n.dot=svg('circle',{cx:n.x,cy:n.y,r:n.club?85:140,fill:n.color,class:'map-node','data-go':n.id},$('#minimap'));svg('title',{},n.dot).textContent=n.id});const marker=svg('rect',{id:'map-current',rx:45},$('#minimap'));
+function fit(){return Math.max(.25,Math.min(1,(innerWidth-32)/(innerWidth<=700?350:980),(innerHeight-185)/(innerWidth<=700?620:600)))}function draw(){world.style.transform=`scale(${z}) translate(${-cx}px,${-cy}px)`;$('#zoom').textContent=Math.round(z*100)+'%';Object.entries({x:cx-innerWidth/z/2,y:cy-innerHeight/z/2,width:innerWidth/z,height:innerHeight/z}).forEach(([k,v])=>marker.setAttribute(k,v))}
+function mark(){nodes.forEach(n=>{const a=n.id===current;n.el.classList.toggle('active',a);n.dot.classList.toggle('active',a);n.el.querySelectorAll('button').forEach(b=>b.tabIndex=a?0:-1)});const n=get(current);$('#location').textContent=n.id==='home'?t(tr('The center / Choose your path','Կենտրոն / Ընտրիր քո ուղղությունը')):(n.club?t(n.club.name)+' / ':'')+name(n)}
+function move(x,y,scale){cancelAnimationFrame(anim);const a=cx,b=cy,c=z,start=performance.now();function frame(now){const q=reduce.matches?1:Math.min(1,(now-start)/1050),e=q<.5?4*q*q*q:1-Math.pow(-2*q+2,3)/2;cx=a+(x-a)*e;cy=b+(y-b)*e;z=c+(scale-c)*e;draw();if(q<1)anim=requestAnimationFrame(frame)}anim=requestAnimationFrame(frame)}
+function go(id,push=true){const n=get(id);if(!n)return;current=id;overviewMode=false;mark();move(n.x,n.y,fit());if(push&&location.hash!=='#'+id)history.pushState(null,'','#'+id)}
+document.addEventListener('click',e=>{if(suppressClick){suppressClick=false;return}const l=e.target.closest('[data-lang]');if(l){lang=l.dataset.lang;render();return}const b=e.target.closest('[data-go]');if(b){go(b.dataset.go);return}const p=e.target.closest('[data-node]');if(p&&p.dataset.node!==current)go(p.dataset.node)});$('#homeButton').onclick=()=>go('home');$('#plus').onclick=()=>move(cx,cy,Math.min(1.6,z*1.3));$('#minus').onclick=()=>move(cx,cy,Math.max(.045,z/1.3));$('#overview').onclick=()=>{overviewMode=true;move(0,0,Math.min((innerWidth-60)/10300,(innerHeight-180)/7500))};
+let drag=null,suppressClick=false;const touches=new Map();let pinch=null;stage.onpointerdown=e=>{if(e.target.closest('button'))return;cancelAnimationFrame(anim);stage.setPointerCapture(e.pointerId);touches.set(e.pointerId,{x:e.clientX,y:e.clientY});drag={x:e.clientX,y:e.clientY,cx,cy,moved:false,node:e.target.closest("[data-node]")?.dataset.node};if(touches.size===2){const[a,b]=[...touches.values()];pinch={dist:Math.hypot(a.x-b.x,a.y-b.y),z}}};stage.onpointermove=e=>{if(!touches.has(e.pointerId))return;touches.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pinch&&touches.size===2){const[a,b]=[...touches.values()];z=Math.max(.045,Math.min(1.6,pinch.z*Math.hypot(a.x-b.x,a.y-b.y)/pinch.dist));suppressClick=true;draw();return}if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>6)drag.moved=true;cx=Math.max(-5100,Math.min(5100,drag.cx-dx/z));cy=Math.max(-3700,Math.min(3700,drag.cy-dy/z));draw()};function end(e){if(drag?.moved)suppressClick=true;else if(drag?.node&&drag.node!==current&&!pinch)go(drag.node);touches.delete(e.pointerId);pinch=null;drag=null;setTimeout(()=>suppressClick=false,60)}stage.onpointerup=end;stage.onpointercancel=end;
+window.onkeydown=e=>{if(e.key==='Escape'||e.key==='Home'){e.preventDefault();go('home')}const d={ArrowLeft:[-200,0],ArrowRight:[200,0],ArrowUp:[0,-200],ArrowDown:[0,200]}[e.key];if(d){e.preventDefault();move(cx+d[0]/z,cy+d[1]/z,z)}};window.onpopstate=()=>go(location.hash.slice(1)||'home',false);window.onresize=()=>overviewMode?$('#overview').click():go(current,false);const initial=get(location.hash.slice(1));if(initial){current=initial.id;cx=initial.x;cy=initial.y}z=fit();render();
+</script></body></html>

@@ -1,820 +1,698 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VÉLA — Հագուստի խանութ</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-font-family:Arial,"Noto Sans Armenian",sans-serif;
-background:#fff8f7;color:#241c1f;line-height:1.5
-}
-button,input{font:inherit}
-button{cursor:pointer}
-a{text-decoration:none;color:inherit}
-
-.top{
-background:#241c1f;color:white;text-align:center;
-padding:9px;font-size:13px
-}
-
-header{
-position:sticky;top:0;z-index:100;
-background:rgba(255,248,247,.96);
-border-bottom:1px solid #eadfdb
-}
-
-.nav{
-max-width:1200px;margin:auto;min-height:72px;
-display:flex;align-items:center;justify-content:space-between;
-padding:0 20px
-}
-
-.logo{
-font-size:29px;font-weight:900;letter-spacing:4px
-}
-.logo span{color:#ed5275}
-
-.links{
-display:flex;gap:28px;font-weight:bold;font-size:15px
-}
-.links a:hover{color:#ed5275}
-
-.actions{display:flex;gap:7px}
-.icon{
-border:0;background:white;border-radius:50%;
-width:42px;height:42px;font-size:18px;position:relative
-}
-.icon:hover{background:#ffe5eb}
-.count{
-position:absolute;right:-2px;top:-2px;
-background:#ed5275;color:white;border-radius:50%;
-width:18px;height:18px;font-size:11px;
-display:flex;align-items:center;justify-content:center
-}
-.menu{display:none}
-
-.hero{
-max-width:1200px;margin:25px auto;padding:0 20px
-}
-.hero-box{
-min-height:570px;border-radius:34px;overflow:hidden;
-display:flex;align-items:center;
-background:
-linear-gradient(90deg,rgba(35,24,29,.82),rgba(35,24,29,.28)),
-url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85")
-center/cover
-}
-.hero-content{color:white;max-width:650px;padding:55px}
-.tag{
-display:inline-block;background:#ffb5c6;color:#241c1f;
-padding:8px 14px;border-radius:30px;font-size:12px;
-font-weight:bold;margin-bottom:18px
-}
-.hero h1{
-font-size:clamp(45px,7vw,78px);
-line-height:.98;margin-bottom:22px
-}
-.hero h1 span{color:#ffb5c6}
-.hero p{
-font-size:18px;max-width:530px;margin-bottom:28px;color:#f8eeee
-}
-.btn{
-display:inline-block;border:0;background:#ed5275;
-color:white;padding:14px 24px;border-radius:12px;
-font-weight:bold;transition:.2s
-}
-.btn:hover{transform:translateY(-3px);background:#d93f62}
-
-.section{
-max-width:1200px;margin:80px auto;padding:0 20px
-}
-.heading{
-display:flex;justify-content:space-between;
-align-items:end;margin-bottom:28px;gap:20px
-}
-.heading h2{font-size:36px}
-.heading p{color:#76696e;max-width:500px}
-
-.categories{
-display:grid;grid-template-columns:repeat(4,1fr);gap:18px
-}
-.category{
-height:280px;border-radius:23px;overflow:hidden;
-position:relative;color:white;background-size:cover;
-background-position:center;transition:.3s
-}
-.category:hover{transform:translateY(-5px)}
-.category:after{
-content:"";position:absolute;inset:0;
-background:linear-gradient(transparent 30%,rgba(0,0,0,.7))
-}
-.category div{
-position:absolute;z-index:2;left:20px;bottom:18px
-}
-.category h3{font-size:23px}
-.category p{font-size:13px}
-
-.c1{background-image:url("https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=80")}
-.c2{background-image:url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80")}
-.c3{background-image:url("https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=80")}
-.c4{background-image:url("https://images.unsplash.com/photo-1548883354-94bcfe321cbb?auto=format&fit=crop&w=700&q=80")}
-
-.products{
-display:grid;grid-template-columns:repeat(4,1fr);gap:20px
-}
-.product{
-background:white;border:1px solid #eee2df;
-border-radius:20px;overflow:hidden;transition:.25s
-}
-.product:hover{
-transform:translateY(-5px);
-box-shadow:0 15px 35px rgba(65,38,46,.1)
-}
-.photo{height:310px;position:relative;overflow:hidden;background:#f3eaea}
-.photo img{
-width:100%;height:100%;object-fit:cover;
-transition:.4s
-}
-.product:hover img{transform:scale(1.05)}
-.badge{
-position:absolute;left:12px;top:12px;
-background:#241c1f;color:white;
-padding:6px 10px;border-radius:20px;
-font-size:11px;font-weight:bold;z-index:2
-}
-.heart{
-position:absolute;right:12px;top:12px;
-width:38px;height:38px;border:0;
-border-radius:50%;background:white;z-index:2;font-size:18px
-}
-.heart.active{color:#ed5275}
-.info{padding:16px}
-.category-name{font-size:12px;color:#98888e}
-.info h3{font-size:17px;margin:5px 0 9px}
-.price{margin-bottom:13px}
-.new{font-weight:900;font-size:18px}
-.old{
-color:#a99b9f;text-decoration:line-through;
-font-size:13px;margin-left:7px
-}
-.add{
-width:100%;border:0;background:#f7e7eb;
-padding:11px;border-radius:10px;font-weight:bold
-}
-.add:hover{background:#ed5275;color:white}
-
-.sale{max-width:1200px;margin:80px auto;padding:0 20px}
-.sale-box{
-background:#f5dce3;border-radius:30px;
-padding:50px;display:flex;
-justify-content:space-between;align-items:center;gap:30px
-}
-.sale h2{font-size:43px;line-height:1.05;margin-bottom:14px}
-.sale p{max-width:560px;color:#654f56;margin-bottom:22px}
-.discount{
-font-size:65px;font-weight:900;color:#ed5275
-}
-
-.benefits{
-display:grid;grid-template-columns:repeat(4,1fr);gap:18px
-}
-.benefit{
-background:white;border:1px solid #eee2df;
-border-radius:20px;padding:25px
-}
-.benefit-icon{font-size:30px;margin-bottom:10px}
-.benefit h3{margin-bottom:7px}
-.benefit p{font-size:14px;color:#76696e}
-
-.newsletter{
-background:#241c1f;color:white;border-radius:28px;
-padding:48px;text-align:center
-}
-.newsletter h2{font-size:34px;margin-bottom:8px}
-.newsletter p{color:#d5c8cc;margin-bottom:22px}
-.form{
-max-width:530px;margin:auto;display:flex;gap:10px
-}
-.form input{
-flex:1;border:0;border-radius:11px;
-padding:14px;outline:none
-}
-
-footer{
-background:#eee4e1;padding:50px 20px 20px;margin-top:70px
-}
-.footer{
-max-width:1200px;margin:auto;
-display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:35px
-}
-.footer-logo{font-size:27px;font-weight:900;letter-spacing:4px;margin-bottom:10px}
-.footer p,.footer a{color:#76696e;font-size:14px}
-.footer h3{margin-bottom:13px;font-size:16px}
-.footer a{display:block;margin-bottom:7px}
-.footer a:hover{color:#ed5275}
-.copy{
-max-width:1200px;margin:35px auto 0;
-padding-top:18px;border-top:1px solid #d6c9c6;
-text-align:center;color:#88797f;font-size:13px
-}
-
-.overlay{
-display:none;position:fixed;inset:0;
-background:rgba(0,0,0,.45);z-index:200
-}
-.overlay.show{display:block}
-
-.cart{
-position:fixed;right:0;top:0;height:100%;
-width:min(430px,92%);background:#fff8f7;
-z-index:201;transform:translateX(100%);
-transition:.3s;padding:23px;
-display:flex;flex-direction:column
-}
-.cart.show{transform:translateX(0)}
-.cart-head{
-display:flex;justify-content:space-between;
-align-items:center;border-bottom:1px solid #eadfdb;
-padding-bottom:18px
-}
-.close{
-border:0;background:#f2e5e3;
-width:38px;height:38px;border-radius:50%
-}
-.cart-items{flex:1;overflow:auto;padding:20px 0}
-.empty{text-align:center;color:#88797f;padding:50px 10px}
-.cart-item{
-display:flex;gap:12px;background:white;
-border:1px solid #eee2df;padding:10px;
-border-radius:14px;margin-bottom:13px
-}
-.cart-item img{
-width:68px;height:78px;object-fit:cover;border-radius:9px
-}
-.cart-item-info{flex:1}
-.cart-item-info h4{font-size:14px}
-.cart-item-info p{font-weight:bold;font-size:13px}
-.remove{
-border:0;background:none;color:#8c7e83;height:25px
-}
-.cart-bottom{
-border-top:1px solid #eadfdb;padding-top:18px
-}
-.total{
-display:flex;justify-content:space-between;
-font-size:20px;font-weight:900;margin-bottom:14px
-}
-.checkout{
-width:100%;border:0;background:#ed5275;
-color:white;padding:14px;border-radius:11px;font-weight:bold
-}
-
-.toast{
-position:fixed;bottom:25px;left:50%;
-transform:translate(-50%,100px);
-background:#241c1f;color:white;
-padding:13px 20px;border-radius:12px;
-z-index:500;opacity:0;transition:.3s
-}
-.toast.show{
-transform:translate(-50%,0);opacity:1
-}
-
-@media(max-width:900px){
-.links{
-position:absolute;left:0;right:0;top:72px;
-background:#fff8f7;padding:20px;
-display:none;flex-direction:column;gap:16px;
-border-bottom:1px solid #eadfdb
-}
-.links.open{display:flex}
-.menu{display:block}
-.categories,.products{grid-template-columns:repeat(2,1fr)}
-.benefits{grid-template-columns:repeat(2,1fr)}
-.footer{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:600px){
-.top{font-size:10px}
-.nav{min-height:65px;padding:0 12px}
-.logo{font-size:23px}
-.icon{width:37px;height:37px}
-.hero{padding:0 12px;margin-top:15px}
-.hero-box{
-min-height:540px;border-radius:25px;
-background-position:65% center
-}
-.hero-content{padding:30px;align-self:end;padding-bottom:38px}
-.hero h1{font-size:45px}
-.hero p{font-size:15px}
-.section{padding:0 12px;margin:60px auto}
-.heading{display:block}
-.heading h2{font-size:29px;margin-bottom:8px}
-.categories,.products{grid-template-columns:1fr 1fr;gap:10px}
-.category{height:205px;border-radius:16px}
-.category h3{font-size:18px}
-.photo{height:225px}
-.product{border-radius:15px}
-.info{padding:11px}
-.info h3{font-size:14px}
-.new{font-size:15px}
-.old{font-size:11px}
-.add{font-size:11px;padding:9px}
-.sale{padding:0 12px;margin:60px auto}
-.sale-box{display:block;padding:35px 25px}
-.sale h2{font-size:33px}
-.discount{font-size:48px;margin-top:15px}
-.benefits{gap:10px}
-.benefit{padding:18px 14px}
-.benefit h3{font-size:15px}
-.benefit p{font-size:12px}
-.newsletter{padding:35px 18px}
-.newsletter h2{font-size:28px}
-.form{flex-direction:column}
-.form input,.form button{width:100%}
-.footer{grid-template-columns:1fr 1fr;gap:28px 18px}
-.footer-brand{grid-column:1/-1}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Մաթեմատիկական Աղյուսակներ և Խառը Թեստեր</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Font - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #faf5ff 100%);
+            min-height: 100vh;
+        }
+        .pop-in {
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
 </head>
-
-<body>
-
-<!-- Վերևի հայտարարություն -->
-<div class="top">✨ ԱՆՎՃԱՐ ԱՌԱՔՈՒՄ՝ 30,000 ֏-ԻՑ ԲԱՐՁՐ ՊԱՏՎԵՐՆԵՐԻ ԴԵՊՔՈՒՄ ✨</div>
-
-<!-- Գլխավոր մենյու -->
-<header>
-<nav class="nav">
-<a href="#home" class="logo">VÉL<span>A</span></a>
-
-<div class="links" id="links">
-<a href="#home">Գլխավոր</a>
-<a href="#categories">Կատեգորիաներ</a>
-<a href="#products">Նոր տեսականի</a>
-<a href="#sale">Զեղչեր</a>
-<a href="#about">Մեր մասին</a>
-</div>
-
-<div class="actions">
-<button class="icon" onclick="notice('Որոնման բաժինը շուտով հասանելի կլինի 🔍')">⌕</button>
-<button class="icon" onclick="notice('Սիրված ապրանքները այստեղ են ♡')">♡</button>
-<button class="icon" onclick="openCart()">🛍<span class="count" id="count">0</span></button>
-<button class="icon menu" onclick="menu()">☰</button>
-</div>
-</nav>
-</header>
-
-<main id="home">
-
-<!-- Գլխավոր էջ -->
-<section class="hero">
-<div class="hero-box">
-<div class="hero-content">
-<span class="tag">ՆՈՐ ՀԱՎԱՔԱԾՈՒ • 2026</span>
-<h1>Քո ոճը.<br><span>Քո կանոնները.</span></h1>
-<p>
-Ժամանակակից, ոճային և որակյալ հագուստ՝ հարմար գներով։
-Ընտրիր այնպիսի ոճ, որը ցույց է տալիս հենց քո անհատականությունը։
-</p>
-<a class="btn" href="#products">Դիտել հավաքածուն →</a>
-</div>
-</div>
-</section>
-
-<!-- Կատեգորիաներ -->
-<section class="section" id="categories">
-<div class="heading">
-<div>
-<h2>Ընտրիր քո ոճը</h2>
-<p>Ամեն օրվա համար՝ հարմարավետ, գեղեցիկ և ժամանակակից հագուստ։</p>
-</div>
-</div>
-
-<div class="categories">
-<a class="category c1" href="#products">
-<div><h3>Վերնաշապիկներ</h3><p>Թեթև և ժամանակակից</p></div>
-</a>
-
-<a class="category c2" href="#products">
-<div><h3>Casual</h3><p>Հարմարավետ ամեն օր</p></div>
-</a>
-
-<a class="category c3" href="#products">
-<div><h3>Կանացի</h3><p>Նուրբ և յուրահատուկ</p></div>
-</a>
-
-<a class="category c4" href="#products">
-<div><h3>Street Style</h3><p>Քաղաքային նորաձևություն</p></div>
-</a>
-</div>
-</section>
-
-<!-- Ապրանքներ -->
-<section class="section" id="products">
-<div class="heading">
-<div>
-<h2>Թրենդային ընտրանի</h2>
-<p>Նոր տեսականուց ընտրված ոճային մոդելները։</p>
-</div>
-<button class="btn" onclick="notice('Բոլոր ապրանքները արդեն ցուցադրված են ✨')">Բոլորը</button>
-</div>
-
-<div class="products">
-
-<!-- Ապրանք 1 -->
-<article class="product">
-<div class="photo">
-<span class="badge">ՆՈՐ</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=700&q=85" alt="Բաճկոն">
-</div>
-<div class="info">
-<span class="category-name">Streetwear</span>
-<h3>Urban սև բաճկոն</h3>
-<div class="price"><span class="new">32,900 ֏</span><span class="old">39,900 ֏</span></div>
-<button class="add" onclick="add('Urban սև բաճկոն',32900,'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 2 -->
-<article class="product">
-<div class="photo">
-<span class="badge">ԹՐԵՆԴ</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=85" alt="Կաշվե բաճկոն">
-</div>
-<div class="info">
-<span class="category-name">Premium</span>
-<h3>Classic կաշվե բաճկոն</h3>
-<div class="price"><span class="new">44,900 ֏</span><span class="old">52,000 ֏</span></div>
-<button class="add" onclick="add('Classic կաշվե բաճկոն',44900,'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 3 -->
-<article class="product">
-<div class="photo">
-<span class="badge">-20%</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=700&q=85" alt="Զգեստ">
-</div>
-<div class="info">
-<span class="category-name">Կանացի</span>
-<h3>Midi Elegant զգեստ</h3>
-<div class="price"><span class="new">27,900 ֏</span><span class="old">34,900 ֏</span></div>
-<button class="add" onclick="add('Midi Elegant զգեստ',27900,'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 4 -->
-<article class="product">
-<div class="photo">
-<span class="badge">ՆՈՐ</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=700&q=85" alt="Հուդի">
-</div>
-<div class="info">
-<span class="category-name">Casual</span>
-<h3>Soft Oversize հուդի</h3>
-<div class="price"><span class="new">24,900 ֏</span></div>
-<button class="add" onclick="add('Soft Oversize հուդի',24900,'https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 5 -->
-<article class="product">
-<div class="photo">
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=700&q=85" alt="Սվիտեր">
-</div>
-<div class="info">
-<span class="category-name">Minimal</span>
-<h3>Soft Beige սվիտեր</h3>
-<div class="price"><span class="new">21,900 ֏</span></div>
-<button class="add" onclick="add('Soft Beige սվիտեր',21900,'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 6 -->
-<article class="product">
-<div class="photo">
-<span class="badge">-15%</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=85" alt="Սպորտային կոշիկ">
-</div>
-<div class="info">
-<span class="category-name">Կոշիկներ</span>
-<h3>Daily Street Sneakers</h3>
-<div class="price"><span class="new">29,900 ֏</span><span class="old">35,000 ֏</span></div>
-<button class="add" onclick="add('Daily Street Sneakers',29900,'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 7 -->
-<article class="product">
-<div class="photo">
-<span class="badge">ՆՈՐ</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=700&q=85" alt="Սպիտակ վերնաշապիկ">
-</div>
-<div class="info">
-<span class="category-name">Classic</span>
-<h3>White Essential վերնաշապիկ</h3>
-<div class="price"><span class="new">18,900 ֏</span></div>
-<button class="add" onclick="add('White Essential վերնաշապիկ',18900,'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-<!-- Ապրանք 8 -->
-<article class="product">
-<div class="photo">
-<span class="badge">-25%</span>
-<button class="heart" onclick="heart(this)">♡</button>
-<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=700&q=85" alt="Դենիմ վերնաշապիկ">
-</div>
-<div class="info">
-<span class="category-name">Denim</span>
-<h3>Classic Denim վերնաշապիկ</h3>
-<div class="price"><span class="new">22,900 ֏</span><span class="old">30,500 ֏</span></div>
-<button class="add" onclick="add('Classic Denim վերնաշապիկ',22900,'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=300&q=80')">Ավելացնել զամբյուղ</button>
-</div>
-</article>
-
-</div>
-</section>
-
-<!-- Զեղչ -->
-<section class="sale" id="sale">
-<div class="sale-box">
-<div>
-<h2>Քո սիրելի ոճը<br>ավելի մատչելի ✨</h2>
-<p>
-Ընտրիր սեզոնի ընտրված մոդելները և ստացիր հատուկ զեղչ։
-Թարմացրու զգեստապահարանդ՝ առանց ավելորդ ծախսերի։
-</p>
-<a href="#products" class="btn">Գնումներ կատարել</a>
-</div>
-<div class="discount">ՄԻՆՉԵՎ<br>−25%</div>
-</div>
-</section>
-
-<!-- Ինչու մեզ -->
-<section class="section" id="about">
-<div class="heading">
-<div>
-<h2>Ինչու՞ VÉLA</h2>
-<p>Լավ հագուստը կարող է լինել գեղեցիկ, որակյալ և հասանելի։</p>
-</div>
-</div>
-
-<div class="benefits">
-<div class="benefit">
-<div class="benefit-icon">✦</div>
-<h3>Որակյալ նյութեր</h3>
-<p>Հարմարավետ և դիմացկուն նյութերից պատրաստված մոդելներ։</p>
-</div>
-
-<div class="benefit">
-<div class="benefit-icon">♡</div>
-<h3>Ժամանակակից ոճ</h3>
-<p>Նորաձև և հեշտ համադրելի հագուստ ամեն օրվա համար։</p>
-</div>
-
-<div class="benefit">
-<div class="benefit-icon">₾</div>
-<h3>Հարմար գներ</h3>
-<p>Գեղեցիկ և որակյալ հագուստ տարբեր բյուջեների համար։</p>
-</div>
-
-<div class="benefit">
-<div class="benefit-icon">⚡</div>
-<h3>Արագ սպասարկում</h3>
-<p>Պատվերի ձևակերպումը պարզ, արագ և հարմար է։</p>
-</div>
-</div>
-</section>
-
-<!-- Բաժանորդագրություն -->
-<section class="section">
-<div class="newsletter">
-<h2>Եղիր առաջինը ✨</h2>
-<p>Ստացիր նոր հավաքածուների և հատուկ առաջարկների մասին տեղեկությունները։</p>
-<form class="form" onsubmit="subscribe(event)">
-<input id="email" type="email" placeholder="Քո էլ․ փոստը" required>
-<button class="btn">Բաժանորդագրվել</button>
-</form>
-</div>
-</section>
-
-</main>
-
-<!-- Footer -->
-<footer>
-<div class="footer">
-
-<div class="footer-brand">
-<div class="footer-logo">VÉLA</div>
-<p>Ժամանակակից հագուստ նրանց համար, ովքեր սիրում են արտահայտել իրենց ոճը։</p>
-</div>
-
-<div>
-<h3>Խանութ</h3>
-<a href="#products">Նոր տեսականի</a>
-<a href="#products">Կանացի</a>
-<a href="#products">Casual</a>
-<a href="#sale">Զեղչեր</a>
-</div>
-
-<div>
-<h3>Օգնություն</h3>
-<a href="#" onclick="notice('Չափսերի ուղեցույցը շուտով հասանելի կլինի');return false">Չափսերի ուղեցույց</a>
-<a href="#" onclick="notice('Առաքման պայմանները շուտով հասանելի կլինեն');return false">Առաքում</a>
-<a href="#" onclick="notice('Վերադարձի պայմանները շուտով հասանելի կլինեն');return false">Վերադարձ</a>
-<a href="#" onclick="notice('Կապ՝ info@vela.am');return false">Կապ մեզ հետ</a>
-</div>
-
-<div>
-<h3>Հետևիր մեզ</h3>
-<a href="#" onclick="notice('Instagram էջը շուտով կավելացվի');return false">Instagram</a>
-<a href="#" onclick="notice('TikTok էջը շուտով կավելացվի');return false">TikTok</a>
-<a href="#" onclick="notice('Facebook էջը շուտով կավելացվի');return false">Facebook</a>
-</div>
-
-</div>
-
-<div class="copy">© 2026 VÉLA — Բոլոր իրավունքները պաշտպանված են։</div>
-</footer>
-
-<!-- Զամբյուղ -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
-
-<aside class="cart" id="cart">
-<div class="cart-head">
-<h2>Իմ զամբյուղը 🛍</h2>
-<button class="close" onclick="closeCart()">✕</button>
-</div>
-
-<div class="cart-items" id="items">
-<div class="empty">
-<div style="font-size:45px">🛍</div>
-<p>Քո զամբյուղը դեռ դատարկ է։</p>
-<p>Ընտրիր քեզ դուր եկած մոդելը։</p>
-</div>
-</div>
-
-<div class="cart-bottom">
-<div class="total">
-<span>Ընդհանուր</span>
-<span id="total">0 ֏</span>
-</div>
-<button class="checkout" onclick="checkout()">Ձևակերպել պատվերը →</button>
-</div>
-</aside>
-
-<div class="toast" id="toast"></div>
-
-<script>
-/* ===== Կայքի JavaScript-ը ===== */
-
-let cart=[];
-
-/* Բջջային մենյու */
-function menu(){
-document.getElementById("links").classList.toggle("open");
-}
-
-/* Սիրված ապրանք */
-function heart(btn){
-btn.classList.toggle("active");
-btn.textContent=btn.classList.contains("active")?"♥":"♡";
-if(btn.classList.contains("active")){
-notice("Ապրանքը ավելացվեց սիրվածների մեջ ♥");
-}
-}
-
-/* Ապրանքի ավելացում զամբյուղ */
-function add(name,price,image){
-let found=cart.find(item=>item.name===name);
-
-if(found){
-found.qty++;
-}else{
-cart.push({name,price,image,qty:1});
-}
-
-updateCart();
-notice("Ապրանքը ավելացվեց զամբյուղում 🛍");
-}
-
-/* Զամբյուղի թարմացում */
-function updateCart(){
-let items=document.getElementById("items");
-let count=document.getElementById("count");
-let total=document.getElementById("total");
-
-let quantity=cart.reduce((sum,item)=>sum+item.qty,0);
-let price=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
-
-count.textContent=quantity;
-total.textContent=price.toLocaleString("hy-AM")+" ֏";
-
-if(cart.length===0){
-items.innerHTML=`
-<div class="empty">
-<div style="font-size:45px">🛍</div>
-<p>Քո զամբյուղը դեռ դատարկ է։</p>
-<p>Ընտրիր քեզ դուր եկած մոդելը։</p>
-</div>`;
-return;
-}
-
-items.innerHTML=cart.map((item,index)=>`
-<div class="cart-item">
-<img src="${item.image}" alt="${item.name}">
-<div class="cart-item-info">
-<h4>${item.name}</h4>
-<p>${item.price.toLocaleString("hy-AM")} ֏ × ${item.qty}</p>
-</div>
-<button class="remove" onclick="removeItem(${index})">✕</button>
-</div>
-`).join("");
-}
-
-/* Ապրանքի հեռացում */
-function removeItem(index){
-cart.splice(index,1);
-updateCart();
-notice("Ապրանքը հեռացվեց զամբյուղից");
-}
-
-/* Զամբյուղի բացում */
-function openCart(){
-document.getElementById("cart").classList.add("show");
-document.getElementById("overlay").classList.add("show");
-document.body.style.overflow="hidden";
-}
-
-/* Զամբյուղի փակում */
-function closeCart(){
-document.getElementById("cart").classList.remove("show");
-document.getElementById("overlay").classList.remove("show");
-document.body.style.overflow="";
-}
-
-/* Պատվերի կոճակ */
-function checkout(){
-if(cart.length===0){
-notice("Նախ ավելացրու ապրանք զամբյուղում 🛍");
-return;
-}
-
-notice("Պատվերը պատրաստ է ձևակերպման 💗");
-
-setTimeout(()=>{
-cart=[];
-updateCart();
-closeCart();
-},1700);
-}
-
-/* Բաժանորդագրություն */
-function subscribe(event){
-event.preventDefault();
-document.getElementById("email").value="";
-notice("Շնորհակալություն։ Դու միացար VÉLA-ի նորություններին ✨");
-}
-
-/* Ծանուցումներ */
-let toastTimer;
-
-function notice(message){
-let toast=document.getElementById("toast");
-
-clearTimeout(toastTimer);
-
-toast.textContent=message;
-toast.classList.add("show");
-
-toastTimer=setTimeout(()=>{
-toast.classList.remove("show");
-},2500);
-}
-
-/* Հղումը սեղմելուց հետո փակել բջջային մենյուն */
-document.querySelectorAll(".links a").forEach(link=>{
-link.addEventListener("click",()=>{
-document.getElementById("links").classList.remove("open");
-});
-});
-
-/* Սկզբնական զամբյուղ */
-updateCart();
-</script>
-
+<body class="text-slate-800 flex flex-col min-h-screen selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header Section -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-indigo-600 to-violet-500 text-white p-3 rounded-2xl shadow-md shadow-indigo-200">
+                    <i class="fa-solid fa-calculator text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-xl md:text-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+                        Մաթեմատիկայի Աշխարհ
+                    </h1>
+                    <p class="text-xs font-semibold text-slate-500">100+ Խառը հարցեր & Ինտերակտիվ Աղյուսակներ</p>
+                </div>
+            </div>
+
+            <!-- Top Actions -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <!-- Navigation Tabs -->
+                <div class="flex bg-slate-100 p-1 rounded-xl gap-1 border border-slate-200 flex-1 sm:flex-none">
+                    <button id="nav-table-btn" onclick="switchTab('tables')" 
+                        class="flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-white text-indigo-600 shadow-sm">
+                        <i class="fa-solid fa-table-cells mr-1.5"></i>Աղյուսակներ
+                    </button>
+                    <button id="nav-quiz-btn" onclick="switchTab('quiz')" 
+                        class="flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i>Թեստեր
+                    </button>
+                </div>
+
+                <!-- Share Link Button -->
+                <button onclick="copyShareableLink()" 
+                    class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-bold text-xs md:text-sm rounded-xl transition-all flex items-center gap-1.5 active:scale-95 shadow-sm"
+                    title="Կիսվել հղումով">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span class="hidden md:inline">Կիսվել</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- Notification / Toast Alert -->
+        <div id="toast-msg" class="fixed top-20 right-4 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 transform transition-all duration-300 translate-y-[-100px] opacity-0 pointer-events-none">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+            <span id="toast-text">Հղումը պատճենվեց:</span>
+        </div>
+
+        <!-- SECTION 1: TABLES VIEW -->
+        <section id="tables-section" class="space-y-6 pop-in">
+            <!-- Controls Bar -->
+            <div class="bg-white/90 backdrop-blur p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap justify-between items-center gap-4">
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">Գործողություն՝</span>
+                    <div class="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200/80">
+                        <button id="mode-mult" onclick="setTableType('multiply')" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all">
+                            ✖️ Բազմապատկում
+                        </button>
+                        <button id="mode-add" onclick="setTableType('add')" class="px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold text-slate-600 hover:text-slate-900 transition-all">
+                            ➕ Գումարում
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">Չափը՝</span>
+                    <select id="range-select" onchange="renderTable()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 font-bold text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="10" selected>1 - 10</option>
+                        <option value="12">1 - 12</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-slate-200/80 overflow-x-auto">
+                <p class="text-xs text-center text-slate-400 font-semibold mb-3">💡 Սեղմիր ցանկացած վանդակի վրա՝ արագ հարցին պատասխանելու համար</p>
+                <div id="table-display" class="min-w-[500px]"></div>
+            </div>
+
+            <!-- Cell Mini Quiz Modal Display -->
+            <div id="cell-quiz-box" class="hidden bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-lg text-center pop-in relative overflow-hidden">
+                <button onclick="closeCellQuiz()" class="absolute top-3 right-4 text-white/80 hover:text-white text-xl font-bold">✕</button>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-indigo-200">Արագ Ստուգում</span>
+                <div id="cell-quiz-question" class="text-3xl font-black my-2">5 × 6 = ?</div>
+                <div class="flex justify-center gap-2 max-w-sm mx-auto mt-4" id="cell-quiz-options"></div>
+                <div id="cell-quiz-feedback" class="mt-3 font-bold text-sm min-h-[20px]"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: QUIZ / TEST MODE -->
+        <section id="quiz-section" class="hidden space-y-6 pop-in">
+            
+            <!-- START QUIZ CARD -->
+            <div id="quiz-start-card" class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-200/80 text-center max-w-xl mx-auto space-y-6">
+                <div class="w-20 h-20 bg-gradient-to-tr from-amber-400 to-orange-500 text-white rounded-3xl flex items-center justify-center mx-auto text-3xl shadow-lg shadow-orange-200">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-800">Մաթեմատիկական Խառը Թեստ</h2>
+                    <p class="text-slate-500 mt-2 text-sm font-medium">100+ դինամիկ հարցերի բազա՝ բոլոր մաթեմատիկական գործողություններով</p>
+                </div>
+
+                <!-- Quiz Settings -->
+                <div class="space-y-4 text-left bg-slate-50/80 p-5 rounded-2xl border border-slate-200">
+                    <div>
+                        <label class="block text-xs font-black uppercase text-slate-400 mb-2 tracking-wider">Գործողության Տեսակ</label>
+                        <select id="quiz-type" class="w-full bg-white border border-slate-300 rounded-xl p-3 font-bold text-sm text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="mixed" selected>🔀 Խառը Հարցեր (➕, ➖, ✖️, ➗)</option>
+                            <option value="multiply">✖️ Միայն Բազմապատկում</option>
+                            <option value="add">➕ Միայն Գումարում</option>
+                            <option value="subtract">➖ Միայն Հանում</option>
+                            <option value="divide">➗ Միայն Բաժանում</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2 tracking-wider">Հարցերի Քանակ</label>
+                            <select id="quiz-count" class="w-full bg-white border border-slate-300 rounded-xl p-3 font-bold text-sm text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="10">10 հարց</option>
+                                <option value="20" selected>20 հարց</option>
+                                <option value="50">50 հարց</option>
+                                <option value="100">100 հարց (Մարաթոն)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black uppercase text-slate-400 mb-2 tracking-wider">Ժամանակ</label>
+                            <select id="quiz-timer-setting" class="w-full bg-white border border-slate-300 rounded-xl p-3 font-bold text-sm text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="0">Առանց ժամանակի</option>
+                                <option value="15" selected>15 վրկ / հարց</option>
+                                <option value="10">10 վրկ / հարց</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startQuiz()" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black text-lg rounded-2xl shadow-xl shadow-indigo-200 transition-all active:scale-98 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i> Սկսել Թեստը
+                </button>
+            </div>
+
+            <!-- ACTIVE QUIZ CARD -->
+            <div id="quiz-active-card" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200/80 max-w-xl mx-auto space-y-6 pop-in">
+                
+                <!-- Quiz Progress Header -->
+                <div class="flex justify-between items-center text-sm font-extrabold text-slate-600 pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs uppercase text-slate-400">Հարց՝</span>
+                        <span id="quiz-progress-text" class="text-slate-800 font-black text-base">1 / 20</span>
+                    </div>
+                    <div id="timer-badge" class="hidden items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-600 border border-amber-200 rounded-full text-xs font-black">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="timer-seconds">15</span>վ
+                    </div>
+                    <div class="flex items-center gap-1 text-orange-500 bg-orange-50 px-2.5 py-1 rounded-full text-xs font-black">
+                        <i class="fa-solid fa-fire"></i>
+                        <span id="quiz-streak">0</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs uppercase text-slate-400">Միավոր՝</span>
+                        <span id="quiz-score" class="text-emerald-600 font-black text-base">0</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-full w-0 rounded-full transition-all duration-300"></div>
+                </div>
+
+                <!-- Question Box -->
+                <div class="text-center py-8 bg-gradient-to-b from-slate-50 to-indigo-50/30 rounded-3xl border border-indigo-100/80 shadow-inner relative">
+                    <span class="text-xs font-extrabold text-indigo-400 uppercase tracking-widest block mb-1" id="question-category">ԽԱՌԸ ՀԱՐՑ</span>
+                    <div id="question-text" class="text-4xl md:text-5xl font-black text-slate-800 tracking-wider">
+                        --
+                    </div>
+                </div>
+
+                <!-- Answers Options Grid -->
+                <div id="options-container" class="grid grid-cols-2 gap-3">
+                    <!-- Options injected dynamically -->
+                </div>
+
+                <!-- Feedback Message -->
+                <div id="feedback-message" class="text-center font-bold min-h-[28px] text-sm md:text-base flex items-center justify-center"></div>
+            </div>
+
+            <!-- QUIZ RESULT CARD -->
+            <div id="quiz-result-card" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200/80 max-w-xl mx-auto text-center space-y-6 pop-in">
+                <div id="result-icon-bg" class="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-4xl shadow-lg bg-emerald-100 text-emerald-600">
+                    🏆
+                </div>
+
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-800" id="result-title">Ավարտվեց:</h2>
+                    <p class="text-slate-500 text-sm mt-1 font-medium" id="result-subtitle">Գերազանց աշխատանք:</p>
+                </div>
+
+                <div class="bg-slate-50/80 p-5 rounded-2xl border border-slate-200 grid grid-cols-2 gap-4">
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-100 shadow-sm">
+                        <span class="text-[10px] font-black text-slate-400 block uppercase tracking-wider">Ճիշտ Պատասխաններ</span>
+                        <span id="result-score" class="text-2xl font-black text-emerald-600">0 / 20</span>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-100 shadow-sm">
+                        <span class="text-[10px] font-black text-slate-400 block uppercase tracking-wider">Ճշտություն</span>
+                        <span id="result-percent" class="text-2xl font-black text-indigo-600">0%</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="resetToQuizStart()" class="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold rounded-2xl transition-all active:scale-95">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>Փորձել Նորից
+                    </button>
+                    <button onclick="copyShareableLink()" class="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-md transition-all active:scale-95">
+                        <i class="fa-solid fa-share-nodes mr-2"></i>Կիսվել Արդյունքով
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/60 border-t border-slate-200/80 mt-auto py-4 text-center text-xs text-slate-500 font-semibold">
+        Մաթեմատիկական Աղյուսակներ & Խառը Թեստեր &copy; 2026
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Audio Synth Context for Effects
+        let audioCtx = null;
+        function playSound(type) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2); // A5
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.25);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                    osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.25); // A2
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                }
+            } catch (e) {
+                // Audio fallback silence
+            }
+        }
+
+        // Global State
+        let currentTableType = 'multiply';
+        let cellQuizData = null;
+        let timerInterval = null;
+
+        let quizState = {
+            active: false,
+            type: 'mixed',
+            totalQuestions: 20,
+            timerLimit: 15,
+            timeLeft: 15,
+            currentQuestionIndex: 0,
+            score: 0,
+            streak: 0,
+            questions: [],
+            currentAnswer: null
+        };
+
+        // Window Load & URL Param State Parser
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('tab')) {
+                switchTab(urlParams.get('tab'));
+            }
+            if (urlParams.has('type')) {
+                document.getElementById('quiz-type').value = urlParams.get('type');
+            }
+            renderTable();
+        };
+
+        // Switch Tabs
+        function switchTab(tab) {
+            const tablesSec = document.getElementById('tables-section');
+            const quizSec = document.getElementById('quiz-section');
+            const navTableBtn = document.getElementById('nav-table-btn');
+            const navQuizBtn = document.getElementById('nav-quiz-btn');
+
+            if (tab === 'tables') {
+                tablesSec.classList.remove('hidden');
+                quizSec.classList.add('hidden');
+                navTableBtn.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-white text-indigo-600 shadow-sm";
+                navQuizBtn.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-slate-600 hover:text-slate-900";
+            } else {
+                tablesSec.classList.add('hidden');
+                quizSec.classList.remove('hidden');
+                navQuizBtn.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 bg-white text-indigo-600 shadow-sm";
+                navTableBtn.className = "flex-1 sm:flex-none px-4 py-2 rounded-lg font-bold text-xs md:text-sm transition-all duration-200 text-slate-600 hover:text-slate-900";
+            }
+        }
+
+        // Table Render Methods
+        function setTableType(type) {
+            currentTableType = type;
+            const multBtn = document.getElementById('mode-mult');
+            const addBtn = document.getElementById('mode-add');
+
+            if (type === 'multiply') {
+                multBtn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all";
+                addBtn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold text-slate-600 hover:text-slate-900 transition-all";
+            } else {
+                addBtn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all";
+                multBtn.className = "px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-bold text-slate-600 hover:text-slate-900 transition-all";
+            }
+            closeCellQuiz();
+            renderTable();
+        }
+
+        function renderTable() {
+            const range = parseInt(document.getElementById('range-select').value);
+            const container = document.getElementById('table-display');
+
+            let html = `<table class="w-full border-collapse text-center select-none">`;
+            
+            // Header Row
+            html += `<thead><tr><th class="p-2.5 bg-slate-100 rounded-tl-2xl border border-slate-200 text-slate-400 font-extrabold text-sm">${currentTableType === 'multiply' ? '✕' : '+'}</th>`;
+            for (let i = 1; i <= range; i++) {
+                html += `<th class="p-2.5 bg-indigo-50/80 border border-slate-200 text-indigo-700 font-black text-sm">${i}</th>`;
+            }
+            html += `</tr></thead><tbody>`;
+
+            // Table Rows
+            for (let i = 1; i <= range; i++) {
+                html += `<tr>`;
+                html += `<td class="p-2.5 bg-indigo-50/80 border border-slate-200 text-indigo-700 font-black text-sm">${i}</td>`;
+                
+                for (let j = 1; j <= range; j++) {
+                    const val = currentTableType === 'multiply' ? (i * j) : (i + j);
+                    const isDiagonal = i === j;
+                    
+                    html += `<td onclick="openCellQuiz(${i}, ${j}, ${val})" 
+                                 class="p-2.5 md:p-3.5 border border-slate-200 text-slate-700 font-black text-sm md:text-base hover:bg-amber-200/80 hover:text-amber-900 cursor-pointer transition-all duration-150 ${isDiagonal ? 'bg-indigo-50/30 font-black text-indigo-900' : 'bg-white'}">
+                                ${val}
+                             </td>`;
+                }
+                html += `</tr>`;
+            }
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // Single Cell Dynamic Mini-Quiz
+        function openCellQuiz(r, c, correctVal) {
+            const quizBox = document.getElementById('cell-quiz-box');
+            const qText = document.getElementById('cell-quiz-question');
+            const optionsContainer = document.getElementById('cell-quiz-options');
+            const feedback = document.getElementById('cell-quiz-feedback');
+
+            const symbol = currentTableType === 'multiply' ? '×' : '+';
+            qText.innerText = `${r} ${symbol} ${c} = ?`;
+            feedback.innerText = '';
+
+            // Generate options
+            let options = new Set([correctVal]);
+            while(options.size < 3) {
+                let diff = (Math.floor(Math.random() * 4) + 1) * (Math.random() > 0.5 ? 1 : -1);
+                let wrong = correctVal + diff;
+                if (wrong > 0 && wrong !== correctVal) options.add(wrong);
+            }
+
+            let optArray = Array.from(options).sort(() => Math.random() - 0.5);
+            optionsContainer.innerHTML = '';
+
+            optArray.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "flex-1 py-2.5 px-3 bg-white text-indigo-900 hover:bg-amber-300 font-black text-lg rounded-xl shadow transition-all active:scale-95";
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    if (opt === correctVal) {
+                        playSound('correct');
+                        feedback.innerHTML = `<span class="text-amber-200">✨ Ճիշտ է: Ապրես:</span>`;
+                    } else {
+                        playSound('wrong');
+                        feedback.innerHTML = `<span class="text-rose-200">❌ Սխալ է: Ճիշտ պատասխանն է ${correctVal}</span>`;
+                    }
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            quizBox.classList.remove('hidden');
+            quizBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeCellQuiz() {
+            document.getElementById('cell-quiz-box').classList.add('hidden');
+        }
+
+        // QUIZ / TEST MODE GENERATOR
+        function startQuiz() {
+            const type = document.getElementById('quiz-type').value;
+            const count = parseInt(document.getElementById('quiz-count').value);
+            const timerSetting = parseInt(document.getElementById('quiz-timer-setting').value);
+
+            quizState = {
+                active: true,
+                type: type,
+                totalQuestions: count,
+                timerLimit: timerSetting,
+                timeLeft: timerSetting,
+                currentQuestionIndex: 0,
+                score: 0,
+                streak: 0,
+                questions: generate100PlusQuestionPool(type, count),
+                currentAnswer: null
+            };
+
+            document.getElementById('quiz-start-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-active-card').classList.remove('hidden');
+
+            showQuestion();
+        }
+
+        // Generates 100+ dynamic questions dynamically across addition, subtraction, multiplication & division
+        function generate100PlusQuestionPool(type, count) {
+            let questions = [];
+            const operations = ['multiply', 'add', 'subtract', 'divide'];
+
+            for (let i = 0; i < count; i++) {
+                let op = type;
+                if (type === 'mixed') {
+                    op = operations[Math.floor(Math.random() * operations.length)];
+                }
+
+                let num1, num2, ans, catLabel;
+
+                if (op === 'multiply') {
+                    num1 = Math.floor(Math.random() * 12) + 1;
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    ans = num1 * num2;
+                    catLabel = "✖️ ԲԱԶՄԱՊԱՏԿՈՒՄ";
+                } else if (op === 'add') {
+                    num1 = Math.floor(Math.random() * 50) + 1;
+                    num2 = Math.floor(Math.random() * 50) + 1;
+                    ans = num1 + num2;
+                    catLabel = "➕ ԳՈՒՄԱՐՈՒՄ";
+                } else if (op === 'subtract') {
+                    num1 = Math.floor(Math.random() * 80) + 10;
+                    num2 = Math.floor(Math.random() * num1) + 1; // Ensure non-negative
+                    ans = num1 - num2;
+                    catLabel = "➖ ՀԱՆՈՒՄ";
+                } else if (op === 'divide') {
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    ans = Math.floor(Math.random() * 10) + 1;
+                    num1 = num2 * ans; // Ensure clean division
+                    catLabel = "➗ ԲԱԺԱՆՈՒՄ";
+                }
+
+                // Options generator
+                let options = new Set([ans]);
+                while (options.size < 4) {
+                    let offset = (Math.floor(Math.random() * 6) + 1) * (Math.random() > 0.5 ? 1 : -1);
+                    let wrong = ans + offset;
+                    if (wrong >= 0 && wrong !== ans) options.add(wrong);
+                }
+
+                questions.push({
+                    num1: num1,
+                    num2: num2,
+                    op: op,
+                    catLabel: catLabel,
+                    ans: ans,
+                    options: Array.from(options).sort(() => Math.random() - 0.5)
+                });
+            }
+            return questions;
+        }
+
+        function showQuestion() {
+            clearInterval(timerInterval);
+            const q = quizState.questions[quizState.currentQuestionIndex];
+            quizState.currentAnswer = q.ans;
+
+            // UI Progress Updates
+            document.getElementById('quiz-progress-text').innerText = `${quizState.currentQuestionIndex + 1} / ${quizState.totalQuestions}`;
+            document.getElementById('quiz-score').innerText = quizState.score;
+            document.getElementById('quiz-streak').innerText = quizState.streak;
+            
+            const progressPercent = ((quizState.currentQuestionIndex) / quizState.totalQuestions) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+
+            // Category & Question Display
+            document.getElementById('question-category').innerText = q.catLabel;
+
+            let symbol = '×';
+            if (q.op === 'add') symbol = '+';
+            if (q.op === 'subtract') symbol = '-';
+            if (q.op === 'divide') symbol = '÷';
+
+            document.getElementById('question-text').innerText = `${q.num1} ${symbol} ${q.num2} = ?`;
+
+            // Answer Buttons Render
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "py-3.5 px-4 bg-slate-50 hover:bg-indigo-50 border-2 border-slate-200 hover:border-indigo-400 rounded-2xl font-black text-xl text-slate-800 transition-all active:scale-95 shadow-sm";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('feedback-message').innerText = '';
+
+            // Timer Logic
+            const timerBadge = document.getElementById('timer-badge');
+            if (quizState.timerLimit > 0) {
+                timerBadge.classList.remove('hidden');
+                timerBadge.classList.add('flex');
+                quizState.timeLeft = quizState.timerLimit;
+                document.getElementById('timer-seconds').innerText = quizState.timeLeft;
+
+                timerInterval = setInterval(() => {
+                    quizState.timeLeft -= 1;
+                    document.getElementById('timer-seconds').innerText = quizState.timeLeft;
+                    if (quizState.timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        handleAnswer(null, null, true); // Timeout
+                    }
+                }, 1000);
+            } else {
+                timerBadge.classList.add('hidden');
+                timerBadge.classList.remove('flex');
+            }
+        }
+
+        function handleAnswer(selected, buttonEl, isTimeout = false) {
+            clearInterval(timerInterval);
+            const isCorrect = selected === quizState.currentAnswer;
+            const buttons = document.getElementById('options-container').querySelectorAll('button');
+            
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                playSound('correct');
+                if (buttonEl) buttonEl.className = "py-3.5 px-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl font-black text-xl text-white shadow-md pop-in";
+                quizState.score += 10;
+                quizState.streak += 1;
+                document.getElementById('feedback-message').innerHTML = `<span class="text-emerald-600 font-black">✨ Ճիշտ է: Ապրե՛ս:</span>`;
+
+                if (quizState.streak % 5 === 0) {
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+                }
+            } else {
+                playSound('wrong');
+                quizState.streak = 0;
+                if (buttonEl) buttonEl.className = "py-3.5 px-4 bg-rose-500 border-2 border-rose-600 rounded-2xl font-black text-xl text-white shadow-md shake";
+
+                const msg = isTimeout ? `⏰ Ժամանակը սպառվեց:` : `❌ Սխալ է:`;
+                document.getElementById('feedback-message').innerHTML = `<span class="text-rose-600 font-black">${msg} Ճիշտ պատասխանն է՝ ${quizState.currentAnswer}</span>`;
+
+                // Highlight correct button
+                buttons.forEach(btn => {
+                    if (parseInt(btn.innerText) === quizState.currentAnswer) {
+                        btn.className = "py-3.5 px-4 bg-emerald-500 border-2 border-emerald-600 rounded-2xl font-black text-xl text-white shadow-md";
+                    }
+                });
+            }
+
+            // Move to Next Question
+            setTimeout(() => {
+                quizState.currentQuestionIndex += 1;
+                if (quizState.currentQuestionIndex < quizState.totalQuestions) {
+                    showQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, 1400);
+        }
+
+        function finishQuiz() {
+            document.getElementById('quiz-active-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.remove('hidden');
+
+            const correctAnswers = quizState.score / 10;
+            const total = quizState.totalQuestions;
+            const percent = Math.round((correctAnswers / total) * 100);
+
+            document.getElementById('result-score').innerText = `${correctAnswers} / ${total}`;
+            document.getElementById('result-percent').innerText = `${percent}%`;
+
+            const resIcon = document.getElementById('result-icon-bg');
+            const resTitle = document.getElementById('result-title');
+            const resSub = document.getElementById('result-subtitle');
+
+            if (percent >= 80) {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+                resIcon.innerText = "🏆";
+                resTitle.innerText = "Հիանալի Արդյունք:";
+                resSub.innerText = "Դուք փայլուն տիրապետում եք մաթեմատիկային:";
+            } else if (percent >= 50) {
+                resIcon.innerText = "👍";
+                resTitle.innerText = "Լավ է:";
+                resSub.innerText = "Շարունակիր մարզվել ավելի բարձր արդյունքի համար:";
+            } else {
+                resIcon.innerText = "💡";
+                resTitle.innerText = "Փորձիր Կրկին:";
+                resSub.innerText = "Օգտվիր աղյուսակներից կրկնելու համար:";
+            }
+        }
+
+        function resetToQuizStart() {
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            document.getElementById('quiz-start-card').classList.remove('hidden');
+        }
+
+        // Share Link Functionality
+        function copyShareableLink() {
+            const quizType = document.getElementById('quiz-type').value;
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?tab=quiz&type=${quizType}`;
+
+            // Copy via dummy textarea for iFrame compatibility
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = shareUrl;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            // Show Toast
+            const toast = document.getElementById('toast-msg');
+            toast.classList.remove('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-[-100px]', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 2500);
+        }
+    </script>
 </body>
 </html>
